@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>AGS Coğrafya Yarışması</title>
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f1f5f9; color: #1e293b; padding: 24px; margin: 0; }
+    .card { background: #fff; border-radius: 12px; padding: 20px; max-width: 650px; margin: 0 auto 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    h2, h3 { margin-top: 0; }
+    .btn { background: #2563eb; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .btn:disabled { background: #94a3b8; cursor: not-allowed; }
+    input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; width: calc(100% - 22px); margin-bottom: 12px; font-size: 15px; }
+    .option-btn { display: block; width: 100%; text-align: left; background: #f8fafc; border: 2px solid #e2e8f0; padding: 12px; border-radius: 8px; margin: 8px 0; font-size: 16px; cursor: pointer; }
+    .option-btn:hover { background: #e0e7ff; border-color: #6366f1; }
+    .scoreboard { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-top: 15px; }
+    .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 13px; font-weight: 600; background: #e2e8f0; }
+  </style>
+</head>
+<body>
+
+  <!-- MOD SEÇİMİ -->
+  <div id="setup-panel" class="card">
+    <h2>AGS Coğrafya Bilgi Yarışması</h2>
+    <p>Rolünüzü seçin:</p>
+    <button class="btn" onclick="initHost()">Yöneticiyim (Host - 3 Kişiyi Bekle)</button>
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #e2e8f0;">
+    <input type="text" id="player-name" placeholder="Adınız (örn. Ahmet)">
+    <input type="text" id="target-peer-id" placeholder="Yönetici Oda Kodu">
+    <button class="btn" style="background: #059669;" onclick="initClient()">Yarışmacı Olarak Katıl</button>
+  </div>
+
+  <!-- YÖNETİCİ EKRANI -->
+  <div id="host-panel" class="card" style="display:none;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3>Yönetici Masası</h3>
+      <span class="status-badge" id="host-id-badge">ID Alınıyor...</span>
+    </div>
+    <p>Bağlanan Yarışmacılar (<span id="connected-count">0</span> / 3):</p>
+    <ul id="players-list"></ul>
+
+    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
+    <button id="next-q-btn" class="btn" onclick="sendNextQuestion()" disabled>Sonraki Soruyu Gönder</button>
+    <div id="host-q-preview" style="margin-top: 15px; font-weight: 500;"></div>
+
+    <div class="scoreboard">
+      <strong>Skor Tablosu:</strong>
+      <div id="host-scores">Yarışmacılar bekleniyor...</div>
+    </div>
+  </div>
+
+  <!-- YARIŞMACI EKRANI -->
+  <div id="client-panel" class="card" style="display:none;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 id="client-greeting">Yarışmacı Ekranı</h3>
+      <span class="status-badge" id="client-status">Bağlandı</span>
+    </div>
+    <div id="client-question-box" style="margin-top: 20px;">
+      <p style="font-size: 18px; font-weight: 600;" id="client-question-text">Soru bekleniyor...</p>
+      <div id="client-options"></div>
+    </div>
+    <div id="client-feedback" style="margin-top: 15px; font-weight: 600;"></div>
+  </div>
+
+<script>
+// AGS Coğrafya Soruları (Konum, Fiziki Özellikler ve Ovalar)
+const questions = [
+  {
+    q: "Aşağıdaki ovalardan hangisi bir delta ovası özelliği göstermez?",
+    options: ["Çarşamba", "Silifke", "Bafra", "Elmalı", "Balat"],
+    answer: 3 // Elmalı (Karstik / Polye)
+  },
+  {
+    q: "Türkiye'nin en büyük delta ovası olan Çukurova'yı oluşturan akarsular hangileridir?",
+    options: ["Gediz - Bakırçay", "Seyhan - Ceyhan", "Kızılırmak - Yeşilırmak", "Büyük Menderes - Küçük Menderes", "Fırat - Dicle"],
+    answer: 1 // Seyhan - Ceyhan
+  },
+  {
+    q: "Akdeniz Bölgesi'ndeki Göller Yöresi ve Teke Yarımadası'nda yaygın olan ova türü hangisidir?",
+    options: ["Tektonik Ova", "Delta Ovası", "Karstik Ova (Polye)", "Taban Seviyesi Ovası", "Dağ Eteği Ovası"],
+    answer: 2 // Karstik
+  },
+  {
+    q: "Kuzey Anadolu Fay Hattı (KAF) üzerinde yer alan aşağıdaki ovalardan hangisi tektonik kökenlidir?",
+    options: ["Erbaa - Niksar", "Menemen", "Dikili", "Çarşamba", "Tefenni"],
+    answer: 0 // Erbaa - Niksar
+  },
+  {
+    q: "Türkiye'nin en doğusu ile en batısı arasında kaç dakikalık yerel saat farkı vardır?",
+    options: ["44", "60", "76", "92", "80"],
+    answer: 2 // 76 dakika (45°D - 26°D = 19 boylam * 4)
+  }
+];
+
+let peer = null;
+let connections = []; // Host için [ { conn, name, score: 0, hasAnswered: false } ]
+let currentQIndex = -1;
+let roundActive = false;
+
+// --- HOST BÖLÜMÜ ---
+function initHost() {
+  document.getElementById('setup-panel').style.display = 'none';
+  document.getElementById('host-panel').style.display = 'block';
+
+  peer = new Peer();
+
+  peer.on('open', (id) => {
+    document.getElementById('host-id-badge').innerText = "Oda Kodu: " + id;
+  });
+
+  peer.on('connection', (conn) => {
+    conn.on('data', (data) => {
+      if (data.type === 'JOIN') {
+        if (connections.length < 3) {
+          connections.push({ conn, name: data.name, score: 0, hasAnswered: false });
+          updatePlayersUI();
+          if (connections.length === 3) {
+            document.getElementById('next-q-btn').disabled = false;
+          }
+        } else {
+          conn.send({ type: 'INFO', msg: 'Oda dolu!' });
+        }
+      } else if (data.type === 'ANSWER') {
+        handlePlayerAnswer(conn.peer, data.choice);
+      }
+    });
+
+    conn.on('close', () => {
+      connections = connections.filter(c => c.conn.peer !== conn.peer);
+      updatePlayersUI();
+      if (connections.length < 3) document.getElementById('next-q-btn').disabled = true;
+    });
+  });
+}
+
+function updatePlayersUI() {
+  document.getElementById('connected-count').innerText = connections.length;
+  const list = document.getElementById('players-list');
+  list.innerHTML = connections.map(c => `<li>${c.name} (Bağlandı)</li>`).join('');
+  renderScoreboard();
+}
+
+function renderScoreboard() {
+  const sb = document.getElementById('host-scores');
+  sb.innerHTML = connections.map(c => `<div><strong>${c.name}:</strong> ${c.score} Puan</div>`).join('');
+}
+
+function sendNextQuestion() {
+  currentQIndex++;
+  if (currentQIndex >= questions.length) {
+    alert("Yarışma tamamlandı!");
+    return;
+  }
+
+  roundActive = true;
+  connections.forEach(c => c.hasAnswered = false);
+
+  const q = questions[currentQIndex];
+  document.getElementById('host-q-preview').innerText = `Aktif Soru: ${q.q}`;
+
+  // Yarışmacılara gönder (doğru cevap index'ini gizliyoruz)
+  connections.forEach(c => {
+    c.conn.send({
+      type: 'QUESTION',
+      question: q.q,
+      options: q.options
+    });
+  });
+}
+
+function handlePlayerAnswer(peerId, choiceIndex) {
+  if (!roundActive) return;
+
+  const player = connections.find(c => c.conn.peer === peerId);
+  if (!player || player.hasAnswered) return;
+
+  player.hasAnswered = true;
+  const correct = questions[currentQIndex].answer === choiceIndex;
+
+  if (correct) {
+    player.score += 10;
+    roundActive = false; // İlk doğru cevap turu kapatır (hız ödülü)
+    
+    // Herkese bildirim
+    connections.forEach(c => {
+      c.conn.send({
+        type: 'ROUND_RESULT',
+        winner: player.name,
+        correctOption: questions[currentQIndex].options[questions[currentQIndex].answer]
+      });
+    });
+  } else {
+    player.conn.send({ type: 'WRONG' });
+  }
+
+  renderScoreboard();
+}
+
+// --- CLIENT (YARIŞMACI) BÖLÜMÜ ---
+function initClient() {
+  const name = document.getElementById('player-name').value.trim();
+  const hostId = document.getElementById('target-peer-id').value.trim();
+
+  if (!name || !hostId) {
+    alert("Lütfen adınızı ve oda kodunu girin!");
+    return;
+  }
+
+  document.getElementById('setup-panel').style.display = 'none';
+  document.getElementById('client-panel').style.display = 'block';
+  document.getElementById('client-greeting').innerText = `Yarışmacı: ${name}`;
+
+  peer = new Peer();
+
+  peer.on('open', () => {
+    const conn = peer.connect(hostId);
+
+    conn.on('open', () => {
+      conn.send({ type: 'JOIN', name: name });
+      document.getElementById('client-status').innerText = "Bağlandı (Hazır)";
+      document.getElementById('client-status').style.background = "#dcfce7";
+      document.getElementById('client-status').style.color = "#15803d";
+    });
+
+    conn.on('data', (data) => {
+      if (data.type === 'QUESTION') {
+        renderQuestionForClient(conn, data.question, data.options);
+      } else if (data.type === 'ROUND_RESULT') {
+        document.getElementById('client-feedback').innerText = `Tur bitti! ${data.winner} bildi. Doğru cevap: ${data.correctOption}`;
+        disableClientButtons();
+      } else if (data.type === 'WRONG') {
+        document.getElementById('client-feedback').innerText = "Yanlış cevap verdin, diğerleri cevaplayabilir!";
+      } else if (data.type === 'INFO') {
+        alert(data.msg);
+      }
+    });
+  });
+}
+
+function renderQuestionForClient(conn, qText, options) {
+  document.getElementById('client-question-text').innerText = qText;
+  document.getElementById('client-feedback').innerText = "";
+  const optsDiv = document.getElementById('client-options');
+  optsDiv.innerHTML = "";
+
+  options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerText = opt;
+    btn.onclick = () => {
+      conn.send({ type: 'ANSWER', choice: idx });
+      btn.style.borderColor = "#2563eb";
+    };
+    optsDiv.appendChild(btn);
+  });
+}
+
+function disableClientButtons() {
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(b => b.disabled = true);
+}
+</script>
+</body>
+</html>
