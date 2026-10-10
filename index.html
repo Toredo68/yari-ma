@@ -33,7 +33,7 @@
   <!-- GİRİŞ EKRANI -->
   <div id="login-card" class="card">
     <h2>KPSS Genel Kültür Maratonu</h2>
-    <p style="text-align: center; color: #94a3b8; font-size: 14px;">30 Tarih + 30 Coğrafya + 10 Güncel (70 Soru - Sıfır Tekrar)</p>
+    <p style="text-align: center; color: #94a3b8; font-size: 14px;">30 Tarih + 30 Coğrafya + 10 Güncel (70 Yeni Soru)</p>
     <input type="text" id="my-name" placeholder="Yarışmacı Adınızı Yazın..." maxlength="15">
     <button class="btn" onclick="enterGame()">Lobiye Katıl</button>
   </div>
@@ -84,104 +84,104 @@
   </div>
 
 <script>
-const ROOM_NAME = "kpss-70-maraton-guncel-v3";
+const ROOM_NAME = "kpss-70-maraton-guncel-v4";
 
 const questions = [
   // ==================== TARİH (30 SORU) ====================
   // İslamiyet Öncesi (4)
-  { q: "Eski Türklerde hükümdarın tahta çıkış hakkının hanedanın tüm erkek üyelerine ait olması hangi anlayışın sonucudur?", options: ["Ortak mülkiyet ve veraset anlayışı", "Feodalizm", "Monarşi", "Oligarşi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "İslamiyet öncesinde savaşta kahramanlık gösteren yiğitlere verilen 'Alp' unvanı hangi değerin göstergesidir?", options: ["Cesaret ve askeri yetenek", "Dini liderlik", "Zenginlik", "Soy soyluluğu"], answer: 0, tag: "Tarih" },
-  { q: "Türklerin göçebe yaşam tarzını benimsemesi sonucunda aşağıdakilerden hangisi gelişme GÖSTERMEMİŞTİR?", options: ["Mimari ve taş yapılar", "Demircilik", "At koşum takımları", "Dokumacılık"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "İslamiyet öncesi Türk devletlerinde yazının geç kullanılmasının temel sebebi nedir?", options: ["Göçebe ve konargöçer yaşam tarzı", "Ticaretin olmaması", "Dilin yetersizliği", "Din adamlarının baskısı"], answer: 0, tag: "Tarih" },
+  { q: "Kavimler Göçü'nün Avrupa'da feodalite (derebeylik) rejiminin doğmasına yol açan en temel nedeni nedir?", options: ["Merkezi krallıkların otoritesini kaybetmesi ve halkın senyörlere sığınması", "Roma İmparatorluğu'nun İslamiyeti seçmesi", "Skolastik felsefenin tamamen terk edilmesi", "Türklerin Hristiyanlığı yasaklaması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "İslamiyet öncesi Türk devletlerinde ordunun sağ ve sol kollarını yöneten hanedan mensubu komutanlara ne ad verilirdi?", options: ["Şad", "Tudun", "Bitikçi", "Tamgacı"], answer: 0, tag: "Tarih" },
+  { q: "Türklerin göçebe yaşantısında kadın ve erkeğin eşit haklara sahip olmasında hangi toplumsal özellik etkili olmuştur?", options: ["Sınıfsız toplum yapısı ve kadının üretim ile savunmada aktif rolü", "Çok eşliliğin zorunlu olması", "Kadınların orduya alınmaması", "Toprak mülkiyetinin yalnızca kadınlara ait olması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Eski Türklerde devletler arası diplomatik elçilere verilen unvan aşağıdakilerden hangisidir?", options: ["Yalvaç (Elçi)", "Ayguçı", "Yarguçı", "Subaşı"], answer: 0, tag: "Tarih" },
 
   // İlk Türk-İslam (4)
-  { q: "Büyük Selçuklu Devleti'nde Sultan Alparslan döneminde vezirlik yapan ve Nizamiye Medreselerini kuran devlet adamı kimdir?", options: ["Nizamülmülk", "Kunduri", "İsferayini", "Ömer Hayyam"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Karahanlılar Devleti'nin resmi yazışmalarında ve edebiyatında Türkçe kullanması neyin göstergesidir?", options: ["Milli kültürlerini koruduklarının", "İslamiyeti benimsemediklerinin", "Arap kültürünü taklit ettiklerinin", "Göçebe kaldıklarının"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Anadolu Selçuklularında gayrimüslimlerden alınan askeri muafiyet ve haraç gelirlerinin toplandığı hazineye ne denirdi?", options: ["Cizye ve Haraç Sandığı", "İrad-ı Cedit", "Mukataa Hazinesi", "Beytülmal"], answer: 3, tag: "Tarih" },
-  { q: "İlk Türk-İslam devletlerinde hükümdarın cuma namazlarında adının imam tarafından zikredilmesine ne denir?", options: ["Hutbe Okutmak", "Hilat Giymek", "Nevbet Vurdurmak", "Tuğ Taşımak"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Tolunoğulları ve İhşidiler devletlerinin kısa sürede yıkılmalarının en belirleyici ortak sebebi nedir?", options: ["Yöneticilerinin Türk, halkının ise çoğunlukla Arap olması", "Haçlı seferlerine karşı koyamamaları", "Bizans ile ittifak kurmaları", "Moğol istilasına uğramaları"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Büyük Selçuklu Devleti'nde arazi kayıtlarının tutulduğu, dirlik ve ikta dağıtımının yapıldığı divan hangisidir?", options: ["Divan-ı Pervane", "Divan-ı İstifa", "Divan-ı İşraf", "Divan-ı Arz"], answer: 0, tag: "Tarih" },
+  { q: "Anadolu Türk beyliklerinden Dulkadiroğulları'na son vererek Anadolu Türk siyasi birliğini kesin olarak sağlayan Osmanlı padişahı kimdir?", options: ["Yavuz Sultan Selim (Turnadağ Savaşı)", "Fatih Sultan Mehmet", "Yıldırım Bayezid", "Kanuni Sultan Süleyman"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türk-İslam devletlerinde sultanın saraydaki güvenliğinden ve teşrifat (protokol) işlerinden sorumlu en yetkili saray görevlisi kimdir?", options: ["Hâcip (Hacibü'l-Hüccab)", "Silahtar", "Emir-i Ahur", "Çaşnigir"], answer: 0, tag: "Tarih" },
 
   // Osmanlı Siyasi & Kültür (10)
-  { q: "Osmanlı Devleti'nde ilk gümüş parayı (akçe) bastıran padişah hangisidir?", options: ["Orhan Bey", "Osman Bey", "I. Murad", "Yıldırım Bayezid"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Osmanlı Devleti'nde 'Ülke hükümdar ve oğullarınındır' anlayışını ilk getiren padişah kimdir?", options: ["I. Murad", "Osman Bey", "Orhan Bey", "Fatih Sultan Mehmet"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "II. Mehmet (Fatih) döneminde çıkarılan ve kardeş katline cevaz veren ilk yazılı kanunname hangisidir?", options: ["Kanunname-i Âl-i Osman", "Mecelle", "Kanun-ı Esasi", "Fatih Adaletnamesi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Yavuz Sultan Selim'in 1516 yılında Memlüklerle yaptığı ve Suriye, Filistin topraklarını Osmanlı'ya katan zafer hangisidir?", options: ["Mercidabık Savaşı", "Ridaniye Savaşı", "Çaldıran Savaşı", "Turnadağ Savaşı"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Osmanlı Devleti'nde yabancı devletlere verilen ticari ve hukuki ayrıcalıklara ne ad verilir?", options: ["Kapitülasyon (İmtiyaz)", "İltizam", "Berat", "Müsadere"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Tımar sisteminin bozulmasıyla eyaletlerde asayişi sağlamak amacıyla toplanan derme çatma askerlere ne ad verilirdi?", options: ["Sekban ve Sarıca", "Yeniçeri", "Cebelü", "Bostancı"], answer: 0, tag: "Tarih" },
-  { q: "Lale Devri'nde Paris'e elçi olarak gönderilen ve ünlü Sefaretname'yi yazan Osmanlı diplomatı kimdir?", options: ["Yirmisekiz Çelebi Mehmed", "Ebubekir Ratıp Efendi", "Rami Mehmed Paşa", "Halet Efendi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Osmanlı Devleti'nde 'Vaka-i Hayriye' olarak adlandırılan olayla hangi askeri ocak kaldırılmıştır?", options: ["Yeniçeri Ocağı", "Sipahi Ocağı", "Leventler", "Humbaracılar"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "II. Mahmut döneminde köy ve mahallelerde muhtarlık teşkilatının kurulmasının temel amacı nedir?", options: ["Merkezi otoriteyi taşrada güçlendirmek", "Vergileri kaldırmak", "Askerliği bitirmek", "Belediyeleri kapatmak"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Osmanlı Devleti'nde ilk kez parlamentolu ve anayasal düzene geçiş hangi ferman/anayasa ile olmuştur?", options: ["1876 Kanun-ı Esasi (I. Meşrutiyet)", "Tanzimat Fermanı", "Islahat Fermanı", "Sened-i İttifak"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Osmanlı Devleti'nde fethedilen yerlerde yerli halkın inanç ve adetlerine saygı gösterilerek devlete bağlanmasını sağlayan hoşgörü politikasına ne ad verilir?", options: ["İstimalet Politikası", "İskân Politikası", "Müsadere", "Gedik"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Anadolu Hisarı (Güzelcehisar) hangi Osmanlı padişahı tarafından İstanbul kuşatması amacıyla yaptırılmıştır?", options: ["Yıldırım Bayezid", "Orhan Bey", "Fatih Sultan Mehmet", "II. Murad"], answer: 0, tag: "Tarih" },
+  { q: "Kanuni Sultan Süleyman döneminde Avusturya ile imzalanan ve Avusturya arşidükünün Osmanlı sadrazamına denk sayıldığı antlaşma hangisidir?", options: ["1533 İstanbul (İbrahim Paşa) Antlaşması", "Zitvatorok Antlaşması", "Vasvar Antlaşması", "Karlofça Antlaşması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Osmanlı Devleti'nde top dökümü ve topçuluk işlerinden sorumlu askeri ocak hangisidir?", options: ["Topçu Ocağı", "Cebeci Ocağı", "Lağımcı Ocağı", "Humbaracı Ocağı"], answer: 0, tag: "Tarih" },
+  { q: "Osmanlı Devleti'nde padişah çocuklarının dünyaya gelmesi veya sünnet törenleri vesilesiyle düzenlenen şenlikleri anlatan minyatürlü eserlere ne ad verilir?", options: ["Surname", "Siyasetname", "Gazavatname", "Kıyafetname"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "17. yüzyılda IV. Mehmed döneminde devletin gelir-gider dengesini kurmak amacıyla ilk kez modern anlamda denk bütçe hazırlayan sadrazam kimdir?", options: ["Tarhuncu Ahmed Paşa", "Köprülü Mehmed Paşa", "Merzifonlu Kara Mustafa Paşa", "Fazıl Mustafa Paşa"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Osmanlı Devleti'nin Batı tarzında açtığı ilk askeri yüksekokul kabul edilen Hendesehane (Mühendishane) hangi padişah döneminde kurulmuştur?", options: ["I. Mahmud", "III. Ahmed", "III. Mustafa", "III. Selim"], answer: 0, tag: "Tarih" },
+  { q: "Boğazlar meselesini ilk kez uluslararası bir krize dönüştüren ve Osmanlı ile Rusya arasında imzalanan 1833 tarihli ittifak antlaşması hangisidir?", options: ["Hünkar İskelesi Antlaşması", "Balta Limanı Ticaret Sözleşmesi", "Edirne Antlaşması", "Küçük Kaynarca Antlaşması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Tanzimat Dönemi'nde gayrimüslim tebaanın devlet memuru olabilmesine ve küçük düşürücü sözlerin yasaklanmasına olanak tanıyan belge hangisidir?", options: ["Islahat Fermanı (1856)", "Tanzimat Fermanı", "Sened-i İttifak", "Kanun-ı Esasi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "II. Abdülhamid döneminde İslamcılık (Panislamizm) politikasının resmi devlet ideolojisi haline getirilmesinin temel amacı nedir?", options: ["Devletin dağılmasını önlemek ve Müslüman tebaayı bir arada tutmak", "Batılılaşmayı hızlandırmak", "Türkçülük akımını yaymak", "Meclisi Mebusan'ı güçlendirmek"], answer: 0, tag: "Tarih" },
 
   // Milli Mücadele & İnkılap (9)
-  { q: "Mustafa Kemal Paşa'nın 1905 yılında ilk görev yeri olan Şam'da kurduğu gizli cemiyet hangisidir?", options: ["Vatan ve Hürriyet Cemiyeti", "İttihat ve Terakki", "Müdafaa-i Hukuk", "Karakol Cemiyeti"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Çanakkale Cephesi'nde Mustafa Kemal'in 'Ben size taarruzu emretmiyorum, ölmeyi emrediyorum' dediği tepe hangisidir?", options: ["Conkbayırı", "Kilitbahir", "Seddülbahir", "Arıburnu"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Amasya Genelgesi'nde ilk kez bahsedilen ve Milli Mücadele'yi yönetecek olan kurul hangisidir?", options: ["Temsil Heyeti (Heyet-i Temsiliye)", "İcra Vekilleri Heyeti", "Kuvayımilliye", "Encümen-i Daniş"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Erzurum Kongresi'nin toplanmasında doğrudan etkili olan iki cemiyet hangisidir?", options: ["Doğu Anadolu Müdafaa-i Hukuk ve Trabzon Muhafaza-i Hukuk", "Kilikyalılar ve Redd-i İlhak", "Trakya-Paşaeli ve Karakol", "Milli Kongre ve Gizli Karakol"], answer: 0, tag: "Tarih" },
-  { q: "I. TBMM'nin açılış konuşmasını meclisin en yaşlı üyesi sıfatıyla yapan Sinop Mebusu kimdir?", options: ["Şerif Bey", "Celal Bayar", "Ali Fethi Okyar", "Diyap Ağa"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Gümrü Antlaşması ile TBMM'yi ve Misak-ı Milli'yi tanıyan ilk devlet hangisi olmuştur?", options: ["Ermenistan", "Gürcistan", "Sovyet Rusya", "Afganistan"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Tekalif-i Milliye Emirleri doğrultusunda halktan toplanan yardımlar hangi savaşta kullanılmıştır?", options: ["Sakarya Meydan Muharebesi", "I. İnönü Muharebesi", "II. İnönü Muharebesi", "Gediz Taarruzu"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Lozan Barış Antlaşması'nda Türkiye'ye savaş tazminatı olarak verilen yer neresidir?", options: ["Karaağaç ve Bosnaköy", "Batı Trakya", "İmroz ve Bozcaada", "Musul"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "1928 yılında yapılan alfabe inkılabıyla Latin harflerini halka öğretmek amacıyla açılan okullara ne denir?", options: ["Millet Mektepleri", "Köy Enstitüleri", "Darülfünun", "Mekteb-i Mülkiye"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kafkas Cephesi'nde Rus işgaline karşı mücadele eden ve Muş ile Bitlis'i Ruslardan geri alan Osmanlı komutanı kimdir?", options: ["Mustafa Kemal Paşa", "Enver Paşa", "Kazım Karabekir", "Hafız Hakkı Paşa"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Mondros Ateşkes Antlaşması imzalandığı sırada Mustafa Kemal Paşa hangi askeri görevde bulunmaktaydı?", options: ["Yıldırım Orduları Grup Komutanı", "9. Ordu Müfettişi", "Çanakkale Anafartalar Grup Komutanı", "Harp Akademisi Müdürü"], answer: 0, tag: "Tarih" },
+  { q: "Kurtuluş Savaşı'nda Batı Anadolu'da Kuvayımilliye birliklerinin sevk ve idaresi amacıyla toplanan sivil kongreler hangileridir?", options: ["Balıkesir ve Alaşehir Kongreleri", "Erzurum ve Sivas Kongreleri", "Pozantı ve Havza Kongreleri", "Afyon ve Kars Kongreleri"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "I. TBMM'nin hükümet üyelerini doğrudan meclis içinden oylamayla tek tek seçtiği yönetim sistemine ne ad verilir?", options: ["Meclis Hükümeti Sistemi", "Kabine Sistemi", "Parlamenter Sistem", "Başkanlık Sistemi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kurtuluş Savaşı'nda güney cephesinde Fransız işgalcilere karşı ilk kurşunu sıkarak direnişi başlatan kahraman kimdir?", options: ["Kara Mehmet Çavuş (Dörtyol)", "Sütçü İmam", "Ali Saip Bey", "Şahin Bey"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "II. İnönü Muharebesi'nin kazanılması üzerine Anadolu'daki işgal birliklerini çekmeye başlayan ilk İtilaf devleti hangisidir?", options: ["İtalya", "Fransa", "İngiltere", "Yunanistan"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Lozan Barış Konferansı'nda kapitülasyonların kesin olarak kaldırılması Türkiye'nin en çok hangi alandaki bağımsızlığını güçlendirmiştir?", options: ["Ekonomik ve mali bağımsızlık", "Sadece askeri savunma", "Sadece deniz taşımacılığı", "Dini işler"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "1926 yılında kabul edilen Türk Medeni Kanunu hangi ülkenin medeni kanunu örnek alınarak hazırlanmıştır?", options: ["İsviçre", "İtalya", "Almanya", "Fransa"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "1934 yılında kabul edilen Soyadı Kanunu ile unvan ve lakapların yasaklanması doğrudan hangi Atatürk ilkesiyle ilgilidir?", options: ["Halkçılık", "Devletçilik", "Laiklik", "Cumhuriyetçilik"], answer: 0, tag: "KPSS ÇIKMIŞ" },
 
   // Çağdaş Türk ve Dünya (3)
-  { q: "İkinci Dünya Savaşı sırasında SSCB'nin Stalingrad savunmasında Alman ordularını durdurduğu cephe hangisidir?", options: ["Doğu Cephesi", "Normandiya Çıkarması", "Pasifik Cephesi", "Kuzey Afrika"], answer: 0, tag: "Tarih" },
-  { q: "Türkiye'nin Kore Savaşı'na asker göndermesi hangi uluslararası teşkilatın aldığı karar gereğidir?", options: ["Birleşmiş Milletler (BM)", "NATO", "Varşova Paktı", "Avrupa Konseyi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Kuzey Kıbrıs Türk Cumhuriyeti'nin (KKTC) kurucu cumhurbaşkanı kimdir?", options: ["Rauf Denktaş", "Fazıl Küçük", "Mehmet Ali Talat", "Derviş Eroğlu"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kafkasya'da Rus yayılmacılığına karşı bağımsızlık savaşı veren ve 'Kafkas Kartalı' olarak anılan Dağıstanlı lider kimdir?", options: ["Şeyh Şamil", "Gaspıralı İsmail", "Zeki Velidi Togan", "Mehmet Emin Resulzade"], answer: 0, tag: "Tarih" },
+  { q: "İkinci Dünya Savaşı sonrasında ABD tarafından komünizm tehdidi altındaki Türkiye ve Yunanistan'a yapılan askeri yardım doktrini hangisidir?", options: ["Truman Doktrini", "Marshall Planı", "Eisenhower Doktrini", "Monroe Doktrini"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Azerbaycan'ın bağımsızlığını ilan eden ve 'Bir kere yükselen bayrak bir daha inmez' sözüyle tarihe geçen milli lider kimdir?", options: ["Mehmet Emin Resulzade", "Ebulfez Elçibey", "Haydar Aliyev", "Ayaz Mutallibov"], answer: 0, tag: "KPSS ÇIKMIŞ" },
 
   // ==================== COĞRAFYA (30 SORU) ====================
   // Coğrafi Konum & Fiziki (6)
-  { q: "Türkiye'de dağların güney yamaçlarının kuzey yamaçlarına göre daha fazla güneş alması neyin sonucudur?", options: ["Kuzey Yarım Küre'de yengeç dönencesi dışında yer alması (Bakı)", "Boylam derecelerinin", "Yükseltinin batıdan doğuya artmasının", "Etrafındaki denizlerin"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Aynı enlem üzerindeki noktalarda aşağıdakilerden hangisi kesinlikle AYNIDIR?", options: ["Çizgisel dönüş hızı ve gece-gündüz süresi", "Yıllık sıcaklık ortalaması", "Yerel saat", "Yıllık yağış miktarı"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Türkiye'nin gerçek alanı ile izdüşüm alanı arasındaki farkın en fazla olduğu bölge hangisidir?", options: ["Doğu Anadolu Bölgesi", "İç Anadolu Bölgesi", "Marmara Bölgesi", "Güneydoğu Anadolu"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Akdeniz ve Karadeniz kıyılarında falezlerin (yalıyar) yaygın olmasının temel sebebi nedir?", options: ["Dağların kıyıya paralel ve çok dik uzanması", "Gelgit genliğinin fazlalığı", "Deltaların genişliği", "Mercan resifleri"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Kuzey Anadolu Fay Hattı (KAF) üzerinde yer almayan deprem yöresi hangisidir?", options: ["Mardin Eşiği", "Düzce ve Bolu", "Erzincan Ovası", "Tokat Erbaa"], answer: 0, tag: "Coğrafya" },
-  { q: "Türkiye'de kalkerli arazide tavan çökmesi sonucu oluşan derin doğal karstik çukurlara ne denir?", options: ["Obruk", "Mantar kaya", "Tafoni", "Sirk"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de gölge boyunun hiçbir zaman sıfır olmamasının matematiksel nedeni nedir?", options: ["Dönencelerin kuzeyinde yer alması (Yengeç dönencesi dışı)", "Başlangıç meridyeninin doğusunda olması", "Yükseltinin fazla olması", "Karasallık şiddeti"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "21 Mart ve 23 Eylül ekinoks tarihlerinde Türkiye'de görülen ortak coğrafi durum hangisidir?", options: ["Gece ve gündüz süresinin eşit olması (12 saat)", "En uzun gündüzün yaşanması", "Gölge boyunun en kısa olması", "Yıllık sıcaklık farkının sıfırlanması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye arazisinin ortalama yükseltisinin (1132 metre) fazla olmasında hangi jeolojik kuvvet etkili olmuştur?", options: ["Toptan yükselme (Epirojenez)", "Buzul birikimi", "Rüzgar aşınımı", "Kalker erimesi"], answer: 0, tag: "Coğrafya" },
+  { q: "Marmara Bölgesi'nde hidroelektrik enerji potansiyelinin Türkiye genelinde en düşük olmasının temel sebebi nedir?", options: ["Yükseltinin ve akarsu yatak eğimlerinin az olması", "Yağışın hiç düşmemesi", "Akarsuların bulunmaması", "Göllerin sığ olması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Akarsuların denize döküldüğü yerde gelgit genliği fazla ise hangi kıyı birikim şekli OLUŞAMAZ?", options: ["Delta Ovası", "Haliç", "Falez", "Kıyı Oku"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de tektonik hareketlerle oluşan dağların büyük kısmı hangi orojenez kuşağında yer alır?", options: ["Alp-Himalaya Kıvrım Kuşağı", "Kaledonyen Kuşağı", "Hüron Kuşağı", "Hersinyen Kuşağı"], answer: 0, tag: "Coğrafya" },
 
   // İklim & Bitki Örtüsü (5)
-  { q: "Türkiye'de kış mevsiminde Akdeniz ve Ege kıyılarında görülen cephesel yağışların temel oluşum nedeni nedir?", options: ["Sıcak ve soğuk hava kütlelerinin karşılaşması", "Havanın dağ yamacı boyunca yükselmesi", "Isınan havanın dikine yükselmesi", "Alizelerin esmesi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "İç kesimlerde deniz etkisinin sokulamamasının ve karasal iklimin hüküm sürmesinin nedeni nedir?", options: ["Kıyı dağlarının kıyıya paralel uzanması", "Enlem etkisi", "Boylam farkı", "Bitki örtüsü yetersizliği"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Türkiye'de yaz kuraklığının belirgin olduğu bozkır alanlarında hangi ağaçlandırma türü en dayanıklıdır?", options: ["Karaçam ve meşe", "Kayın", "Göknar", "Ladin"], answer: 0, tag: "Coğrafya" },
-  { q: "Güneydoğu Anadolu Bölgesi'nde yaz sıcaklıklarının rekor seviyelere ulaşmasında hangi yerel rüzgar etkilidir?", options: ["Samyeli (Keşişleme)", "Poyraz", "Karayel", "Yıldız"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Akdeniz iklim bölgesinde kızılçam ormanlarının tahrip edilmesiyle oluşan bodur bitki örtüsü hangisidir?", options: ["Maki", "Bozkır", "Tundra", "Savan"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Doğu Karadeniz Bölümü'nün Batı Karadeniz'e göre daha fazla yağış almasının temel fiziki sebebi nedir?", options: ["Kaçkar Dağları'nın kıyıya çok yakın ve daha yüksek olması", "Enleminin daha güneyde olması", "Deniz suyunun daha tuzlu olması", "Buharlaşmanın daha fazla olması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kış mevsiminde Sibirya'dan esen ve Doğu Karadeniz ile Doğu Anadolu'da dondurucu soğuklar getiren rüzgar hangisidir?", options: ["Poyraz", "Lodos", "Kıble", "Samyeli"], answer: 0, tag: "Coğrafya" },
+  { q: "İç Anadolu Bölgesi'nde yer alan ormanların tahrip edilmesi sonucunda ortaya çıkan bozkırlara ne ad verilir?", options: ["Antropojen Bozkır", "Garig", "Psödomaki", "Alpin Çayır"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Akdeniz kıyılarında zeytin, defne, mersin ve zakkum gibi bitkilerin doğal yetişme alanı bulması hangi iklimin kanıtıdır?", options: ["Akdeniz İklimi", "Karasal İklim", "Okyanusal İklim", "Tundra İklimi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de yıllık sıcaklık farkının en düşük olduğu yer neresidir?", options: ["Rize ve Doğu Karadeniz kıyı kuşağı", "Şanlıurfa", "Kars", "Konya"], answer: 0, tag: "Coğrafya" },
 
   // Yer Şekilleri, Su & Toprak (6)
-  { q: "Akarsuların menderesler çizerek akması akarsu hakkında hangi kesin bilgiyi verir?", options: ["Yatak eğiminin ve akış hızının azaldığını", "Rejiminin düzenli olduğunu", "Debisinin çok yüksek olduğunu", "Açık havza olduğunu"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Gediz, Küçük Menderes ve Büyük Menderes nehirlerinin Ege Denizi'ne döküldükleri yerde ne tür ova oluşur?", options: ["Delta ovası", "Karstik polye", "Buzul ovası", "Kanyon vadi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "İç püskürük volkanik kayaç olan granitin aşınmasıyla oluşan ve Aydın Çine yöresinde görülen topoğrafyaya ne denir?", options: ["Tor Topoğrafyası", "Karstik Topoğrafya", "Kuesta", "Lapya"], answer: 0, tag: "Coğrafya" },
-  { q: "Sularında bol miktarda soda bulunan ve inci kefali balığının yaşadığı ülkemizin en büyük gölü hangisidir?", options: ["Van Gölü", "Tuz Gölü", "Beyşehir Gölü", "Eğirdir Gölü"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Ergene Havzası ve Konya Kapalı Havzası'nda yaygın olan kireçli, killi kahverengi step topraklarının özelliği nedir?", options: ["Organik maddece (humus) fakir ve kireçli olması", "Aşırı yıkanmış ve asidik olması", "Yıl boyu donmuş olması", "Lateritleşmiş olması"], answer: 0, tag: "Coğrafya" },
-  { q: "Türkiye'de heyelan olaylarının Karadeniz'de yoğunlaşmasında eğim ve yağışın yanında hangi toprak yapısı etkilidir?", options: ["Killi toprak tabakası", "Kalkerli karst", "Kumul", "Buzul moreni"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Rüzgârların taşıdığı ince toz ve kil materyallerini çukur alanlarda biriktirmesiyle oluşan lös topraklarına en çok nerede rastlanır?", options: ["İç Anadolu ve Güneydoğu Anadolu", "Doğu Karadeniz", "Batı Karadeniz", "Menteşe Yöresi"], answer: 0, tag: "Coğrafya" },
+  { q: "Samsun ilinde Kızılırmak ve Yeşilırmak nehirlerinin oluşturduğu verimli delta ovaları sırasıyla hangileridir?", options: ["Bafra ve Çarşamba Ovaları", "Çukurova ve Silifke", "Menemen ve Balat", "Dikili ve Bakırçay"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kalker tabakalarının yer altında erimesiyle oluşan boşlukların tavanlarının çökmesi sonucu suyla dolan göllere ne ad verilir?", options: ["Karstik Göller", "Volkanik Göller", "Buzul Gölleri", "Kıyı Set Gölleri"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'de kaynağını ülke dışından alıp topraklarımızdan denize dökülen akarsular hangileridir?", options: ["Meriç ve Asi Nehirleri", "Fırat ve Dicle", "Kura ve Aras", "Çoruh ve Zap"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Doğu Anadolu Bölgesi'nde dağ çayırları altında oluşan ve organik madde bakımından en zengin zonal toprak hangisidir?", options: ["Çernezyom (Kara Toprak)", "Laterit", "Podzol", "Terra Rossa"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'nin en uzun sınır komşusu olan ve Suriye ile sınırımızın büyük bölümünü çizen sınır çizgisi neye dayanır?", options: ["Bağdat Demiryolu hattına", "Fırat Nehri yatağına", "Toros Dağları zirvesine", "Akdeniz kıyısına"], answer: 0, tag: "Coğrafya" },
 
   // Nüfus & Yerleşme (4)
-  { q: "Tuz Gölü ve çevresinin Türkiye'de en seyrek nüfuslu alanlardan biri olmasının temel sebebi nedir?", options: ["Şiddetli kuraklık ve yağış azlığı", "Aşırı engebeli arazi", "Şiddetli kış soğukları", "Orman örtüsünün sıklığı"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Türkiye'de iç göç hareketlerinde sanayileşmiş merkezlerin göç almasının temel çekici faktörü nedir?", options: ["İş imkanlarının ve istihdamın fazlalığı", "İklim koşulları", "Yüzölçümü genişliği", "Doğal güzellikler"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Ege ve Akdeniz kıyılarında yaz aylarında nüfusun katlanarak artmasının sebebi hangi sektördür?", options: ["Yaz turizmi sektörü", "Ağır sanayi", "Madencilik", "Ormancılık"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Doğu Anadolu kırsalında yaygın olan ve birkaç haneden oluşan geçici hayvancılık yerleşmesi hangisidir?", options: ["Kom", "Divan", "Mahalle", "Çiftlik"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'de tarımsal nüfus yoğunluğunun Doğu Karadeniz ve Hakkari'de yüksek çıkmasının temel nedeni nedir?", options: ["Tarıma elverişli arazilerin aşırı engebeli ve dar olması", "Çiftçi sayısının çok az olması", "Makineli tarımın yaygınlığı", "Nüfusun sanayide çalışması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kırsal alanda evlerin birbirine yakın inşa edildiği 'toplu yerleşmelerin' İç Anadolu'da yaygın olmasının sebebi nedir?", options: ["Su kaynaklarının kısıtlı ve arazinin düz olması", "Orman örtüsünün sıklığı", "Engebeli arazi yapısı", "Aşırı yağışlar"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Marmara Bölgesi'nde Çatalca-Kocaeli Bölümü'nün Türkiye'nin en yoğun nüfuslu sahası olmasında hangi faktör belirleyicidir?", options: ["Sanayi, ticaret ve ulaşım ağlarının gelişmiş olması", "Verimli tarım ovalarının çokluğu", "Maden ocaklarının bolluğu", "Turizm tesisleri"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Akdeniz ve Ege kıyılarında yaz aylarında inşaat ve turizm sektöründe çalışmak amacıyla yapılan göç türü hangisidir?", options: ["Mevsimlik (Geçici) İşçi Göçü", "Sürekli Dış Göç", "Mübadele Göçü", "Beyin Göçü"], answer: 0, tag: "Coğrafya" },
 
   // Tarım & Hayvancılık (4)
-  { q: "Türkiye'de sulama imkanlarının artırılmasıyla aşağıdakilerden hangisinde AZALMA görülür?", options: ["Nadasa bırakılan tarım arazisi miktarında", "Yıllık ürün veriminde", "Sanayi bitkisi ekiminde", "Tarımsal gelirde"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Güneydoğu Anadolu'da fıstık, Gaziantep ve Şanlıurfa yöresinde hangi doğal şarta uyum sağladığı için yaygındır?", options: ["Yaz kuraklığına ve kireçli toprağa", "Aşırı neme ve yağışa", "Şiddetli donlara", "Yüksek platolara"], answer: 0, tag: "Coğrafya" },
-  { q: "Doğu Karadeniz ve Erzurum-Kars platolarında gür otlakların bulunması hangi hayvancılığı geliştirmiştir?", options: ["Büyükbaş mera hayvancılığı", "Tiftik keçisi yetiştiriciliği", "İpek böcekçiliği", "Kümes hayvancılığı"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "İç Anadolu Bölgesi'nde tiftik (angora) keçisi yetiştiriciliğiyle özdeşleşen ilimiz hangisidir?", options: ["Ankara", "Konya", "Sivas", "Aksaray"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "İç Anadolu Bölgesi'nde nadas alanlarının daraltılabilmesi ve tarımsal verimin artırılması için en acil ihtiyaç nedir?", options: ["Sulamalı tarım imkanlarının yaygınlaştırılması", "Daha fazla traktör alınması", "Tarım alanlarının ormana çevrilmesi", "Nadas süresinin uzatılması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Ege Bölgesi'nde zeytin ağaçlarının don olaylarından korunmasını sağlayan en önemli iklim faktörü nedir?", options: ["Kış mevsiminin ılık ve yağışlı geçmesi", "Yaz kuraklığının şiddeti", "Dağların kıyıya dik uzanması", "Rüzgar erozyonu"], answer: 0, tag: "Coğrafya" },
+  { q: "Karadeniz kıyılarında mısır üretiminin yaygın olmasına rağmen mısırın iç pazara satılamayıp bölgede tüketilmesinin sebebi nedir?", options: ["Halkın temel besin kaynağı olarak tüketmesi", "Kalitesinin çok düşük olması", "Ulaşımın imkansızlığı", "Sanayide kullanılmaması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de açık deniz balıkçılığının gelişmemesi sebebiyle deniz ürünleri avcılığının yaklaşık %75'i hangi denizimizde yapılır?", options: ["Karadeniz", "Ege Denizi", "Akdeniz", "Marmara Denizi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
 
   // Madenler, Enerji & Sanayi (5)
-  { q: "Zonguldak ve çevresinde demir-çelik sanayisinin kurulmasında hangi enerji kaynağı belirleyici olmuştur?", options: ["Taş kömürü yatakları", "Linyit yatakları", "Petrol", "Doğalgaz"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Güneydoğu Anadolu Bölgesi'nde Batman ve Adıyaman çevresinden çıkarılan hidrokarbon yer altı zenginliği hangisidir?", options: ["Ham Petrol", "Taş kömürü", "Bakır", "Boksit"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Türkiye'de jeotermal sıcak su kaynaklarından elde edilen elektrik üretiminin yoğunlaştığı bölge hangisidir?", options: ["Ege Bölgesi (Graben hatları)", "İç Anadolu", "Doğu Karadeniz", "Marmara"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "İzmit, İzmir ve Mersin gibi liman şehirlerinde petrol rafinerilerinin kurulmasında hangi faktör etkilidir?", options: ["Ulaşım ve deniz ticareti kolaylığı", "Hammaddeye yakınlık", "Nüfus azlığı", "Enerji santralleri"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Elazığ Maden ve Kastamonu Küre işletmelerinde çıkarılan ve elektrik sanayisinde kullanılan maden hangisidir?", options: ["Bakır", "Demir", "Krom", "Bor"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kükürt madeni rezervleri bulunan ve geçmişte entegre fabrikası çalışan Akdeniz ilçemiz hangisidir?", options: ["Isparta (Keçiborlu)", "Antalya (Alanya)", "Mersin (Anamur)", "Burdur (Bucak)"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Güneydoğu Anadolu Bölgesi'nde çıkarılan fosfat madeni hangi sanayi kolunun ana hammaddesidir?", options: ["Suni gübre sanayisi (Mardin Mazıdağı)", "Demir-çelik sanayisi", "Çimento sanayisi", "Seramik sanayisi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kırklareli Hamitabat ve Bursa Ovaakça termik santrallerinde elektrik üretimi hangi yakıtla sağlanır?", options: ["Doğalgaz", "Linyit kömürü", "Taş kömürü", "Fuel-oil"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Denizli Sarayköy ve Aydın Germencik santralleri elektrik üretiminde hangi yer altı yenilenebilir enerjisini kullanır?", options: ["Jeotermal Enerji", "Rüzgar Enerjisi", "Güneş Enerjisi", "Biyokütle"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Şeker pancarı toplandıktan sonra çabuk bozulduğu için şeker fabrikaları genellikle nereye kurulur?", options: ["Hammadde üretim sahalarının yakınına", "Sadece liman kenarlarına", "Büyük tüketim merkezlerine", "Yalnızca Doğu Anadolu'ya"], answer: 0, tag: "KPSS ÇIKMIŞ" },
 
   // ==================== GÜNCEL BİLGİLER (10 SORU) ====================
-  { q: "UNESCO Somut Olmayan Kültürel Miras Listesi'ne giren ve Edirne'de asırlardır düzenlenen geleneksel güreş etkinliği hangisidir?", options: ["Kırkpınar Yağlı Güreşleri", "Karakucak Güreşleri", "Aba Güreşi", "Şalvar Güreşi"], answer: 0, tag: "Güncel" },
-  { q: "Avrupa Birliği'nin para birimi olan Euro'yu basma ve para politikasını yönetme yetkisine sahip banka hangisidir?", options: ["Avrupa Merkez Bankası (ECB)", "Dünya Bankası", "Uluslararası Para Fonu (IMF)", "Avrupa Yatırım Bankası"], answer: 0, tag: "Güncel" },
-  { q: "Kuzey Atlantik Antlaşması Örgütü olan NATO'nun genel karargahı hangi Avrupa başkentindedir?", options: ["Brüksel (Belçika)", "Strazburg (Fransa)", "Cenevre (İsviçre)", "Lahey (Hollanda)"], answer: 0, tag: "Güncel" },
-  { q: "Nobel Edebiyat Ödülü'nü kazanan ilk Türk yazar kimdir?", options: ["Orhan Pamuk", "Yaşar Kemal", "Ahmet Hamdi Tanpınar", "Attila İlhan"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Nobel Kimya Ödülü'nü DNA onarımı mekanizması üzerine yaptığı çalışmalarla kazanan Türk bilim insanı kimdir?", options: ["Aziz Sancar", "Oktay Sinanoğlu", "Gazi Yaşargil", "Cahit Arf"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Birleşmiş Milletler (BM) Genel Kurulu ve Güvenlik Konseyi'nin ana merkezi hangi şehirdedir?", options: ["New York (ABD)", "Cenevre (İsviçre)", "Paris (Fransa)", "Viyana (Avusturya)"], answer: 0, tag: "Güncel" },
-  { q: "Uluslararası Adalet Divanı (UAD) hangi Hollanda şehrindeki Barış Sarayı'nda görev yapar?", options: ["Lahey", "Amsterdam", "Rotterdam", "Utrecht"], answer: 0, tag: "Güncel" },
-  { q: "Türk lirasında 100 TL banknotunun arka yüzünde portresi yer alan klasik Türk müziği bestekarı kimdir?", options: ["Buhurizade Mustafa Itri", "Dede Efendi", "Hacı Arif Bey", "Tamburi Cemil Bey"], answer: 0, tag: "Güncel" },
-  { q: "Türk lirasında 50 TL banknotunun arka yüzünde yer alan ilk kadın Türk romancısı kimdir?", options: ["Fatma Aliye Topuz", "Halide Edib Adıvar", "Samiha Ayverdi", "Nezihe Muhiddin"], answer: 0, tag: "Güncel" },
-  { q: "Avrupa Konseyi Parlamenter Meclisi ve Avrupa Parlamentosu oturumlarının yapıldığı Fransız kenti hangisidir?", options: ["Strazburg", "Lyon", "Marsilya", "Bordeaux"], answer: 0, tag: "Güncel" }
+  { q: "UNESCO Dünya Mirası Listesi'nde yer alan ve 'Kral Yolu' üzerinde bulunan Çorum'daki Hitit başkenti antik kent hangisidir?", options: ["Hattuşa (Boğazköy)", "Gordion", "Sardes", "Efes"], answer: 0, tag: "Güncel" },
+  { q: "İslam İşbirliği Teşkilatı'nın (İİT) genel sekreterlik merkezi hangi Suudi Arabistan şehrindedir?", options: ["Cidde", "Riyad", "Mekke", "Medine"], answer: 0, tag: "Güncel" },
+  { q: "Petrol İhraç Eden Ülkeler Örgütü olan OPEC'in genel merkezi hangi Avrupa başkentindedir?", options: ["Viyana (Avusturya)", "Cenevre (İsviçre)", "Brüksel (Belçika)", "Amsterdam (Hollanda)"], answer: 0, tag: "Güncel" },
+  { q: "Türk sinemasında 'Susuz Yaz' filmiyle Berlin Film Festivali'nde Altın Ayı ödülü kazanan ilk Türk yönetmen kimdir?", options: ["Metin Erksan", "Yılmaz Güney", "Lütfi Akad", "Nuri Bilge Ceylan"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Milli Mücadele'yi konu edinen ünlü 'Yaban' romanının yazarı olan edebiyatçımız kimdir?", options: ["Yakup Kadri Karaosmanoğlu", "Halide Edib Adıvar", "Reşat Nuri Güntekin", "Peyami Safa"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Uluslararası Para Fonu (IMF) ve Dünya Bankası'nın (World Bank) genel merkezleri hangi şehirdedir?", options: ["Washington D.C. (ABD)", "New York", "Londra", "Paris"], answer: 0, tag: "Güncel" },
+  { q: "Türk lirasında 20 TL banknotunun arka yüzünde portresi yer alan Mimar Kemaleddin hangi mimari akımın öncüsüdür?", options: ["I. Ulusal Mimarlık Akımı", "Barok ve Rokoko", "Osmanlı Klasik Akımı", "Postmodern Mimarlık"], answer: 0, tag: "Güncel" },
+  { q: "Türkiye'nin ilk yerli yüksek çözünürlüklü yer gözlem uydusu aşağıdakilerden hangisidir?", options: ["İMECE", "Türksat 1A", "Bilsat", "Göktürk-3"], answer: 0, tag: "Güncel" },
+  { q: "Birleşmiş Milletler Mülteciler Yüksek Komiserliği (UNHCR) merkezi hangi İsviçre kentindedir?", options: ["Cenevre", "Zürih", "Basel", "Lozan"], answer: 0, tag: "Güncel" },
+  { q: "Kültür ve Turizm Bakanlığı tarafından koruma altına alınan ve 'Sakin Şehir' (Cittaslow) unvanını Türkiye'de ilk alan İzmir ilçesi hangisidir?", options: ["Seferihisar", "Urla", "Çeşme", "Foça"], answer: 0, tag: "KPSS ÇIKMIŞ" }
 ];
 
 // 1. Şıkları Karıştır
@@ -435,7 +435,7 @@ function handleClientData(data) {
     document.getElementById('round-correct-ans').innerText = `Doğru Cevap: ${data.correctAnswer}`;
     const lb = document.getElementById('leaderboard');
     
-    // Yanlış yapana eşek emojisi (🫏) + Doğru Sayısı
+    // Yanlış yapanın yanında eşek emojisi (🫏) + Doğru Sayısı
     lb.innerHTML = data.leaderboard.map((p, i) => {
       const statusIcon = p.wasCorrect ? (p.streak >= 3 ? `🔥x${p.streak}` : '✅') : '🫏';
       return `
