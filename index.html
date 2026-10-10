@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>KPSS Tarih & Coğrafya Karışık Yarışma</title>
+  <title>KPSS 60 Soru Maratonu (30 Tarih - 30 Coğrafya)</title>
   <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
   <style>
     * { box-sizing: border-box; }
@@ -20,7 +20,7 @@
     .option-btn.selected { border-color: #38bdf8; background: #1e3a8a; }
     .badge { background: #0f172a; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #94a3b8; border: 1px solid #334155; }
     .player-chip { background: #0f172a; border: 1px solid #334155; padding: 8px 14px; border-radius: 20px; margin: 4px; display: inline-block; font-size: 14px; }
-    .leaderboard-row { display: flex; justify-content: space-between; padding: 12px; background: #0f172a; border-radius: 8px; margin-bottom: 8px; font-weight: 600; }
+    .leaderboard-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #0f172a; border-radius: 8px; margin-bottom: 8px; font-weight: 600; }
     .cat-badge { font-size: 12px; padding: 4px 8px; border-radius: 6px; font-weight: bold; margin-left: 6px; }
     .cat-cikmis { background: #dc2626; color: #fee2e2; }
     .cat-tarih { background: #2563eb; color: #dbeafe; }
@@ -32,7 +32,7 @@
   <!-- GİRİŞ EKRANI -->
   <div id="login-card" class="card">
     <h2>KPSS GY-GK Maratonu</h2>
-    <p style="text-align: center; color: #94a3b8; font-size: 14px;">30 Tarih + 20 Coğrafya (Karışık & Çıkmış Sorular)</p>
+    <p style="text-align: center; color: #94a3b8; font-size: 14px;">30 Tarih + 30 Coğrafya (Dengeli Dağılım & Çıkmış Sorular)</p>
     <input type="text" id="my-name" placeholder="Yarışmacı Adınızı Yazın..." maxlength="15">
     <button class="btn" onclick="enterGame()">Lobiye Katıl</button>
   </div>
@@ -56,7 +56,7 @@
   <div id="quiz-card" class="card" style="display: none;">
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <div>
-        <span class="badge" id="q-counter">Soru 1/50</span>
+        <span class="badge" id="q-counter">Soru 1/60</span>
         <span id="q-cat" class="cat-badge">KPSS</span>
       </div>
       <span class="badge" id="time-text" style="color: #f59e0b;">20s</span>
@@ -83,65 +83,95 @@
   </div>
 
 <script>
-const ROOM_NAME = "kpss-tarih-cografya-50-v1";
+const ROOM_NAME = "kpss-60-tarih-cografya-v1";
 
 const questions = [
-  // --- TARİH: ÇIKMIŞ KPSS VE ÖZGÜN SORULAR (30 Soru) ---
-  { q: "Türk tarihinde Musevilik dinini kabul eden ilk ve tek Türk devleti hangisidir?", options: ["Hazarlar", "Avarlar", "Uygurlar", "Peçenekler"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Mısır'da kurulan ve ordu teşkilatı ile halkı tamamen Türk ve Arap unsurlardan oluşan ilk Türk-İslam devleti hangisidir?", options: ["Tolunoğulları", "İhşidiler", "Eyyubiler", "Memlükler"], answer: 0, tag: "Tarih" },
-  { q: "Büyük Selçuklu Devleti'nde resmi devlet yazışmalarını yürüten divan hangisidir?", options: ["Divan-ı İnşa (Tuğra)", "Divan-ı İstifa", "Divan-ı İşraf", "Divan-ı Arz"], answer: 0, tag: "Tarih" },
-  { q: "Osmanlı Devleti'nde ilk kez iç borçlanmaya (Esham Sistemi) hangi padişah döneminde gidilmiştir?", options: ["I. Abdülhamid", "III. Mustafa", "III. Selim", "II. Mahmud"], answer: 1, tag: "KPSS ÇIKMIŞ" },
-  { q: "Osmanlı ordusunda kale kuşatmalarında tüneller kazarak surları yıkan askeri sınıf hangisidir?", options: ["Lağımcılar", "Humbaracılar", "Cebeciler", "Turnacılar"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Osmanlı Devleti'nde gelirleri padişahın kızlarına, annesine ve hanımlarına verilen dirlik arazisi hangisidir?", options: ["Paşmaklık", "Mukataa", "Yurtluk", "Ocaklık"], answer: 0, tag: "Tarih" },
-  { q: "Kırım'ın Osmanlı Devleti'nden ayrılarak bağımsız hale geldiği antlaşma hangisidir?", options: ["Küçük Kaynarca Antlaşması", "Yaş Antlaşması", "Aynalıkavak Tenkihnamesi", "Pasarofça Antlaşması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Osmanlı Devleti'nde Batı tarzında askeri ıslahat yapmak amacıyla kurulan Nizam-ı Cedit ordusu hangi padişah dönemine aittir?", options: ["III. Selim", "II. Mahmud", "I. Mahmud", "III. Ahmed"], answer: 0, tag: "Tarih" },
-  { q: "Padişahın yetkilerini kendi iradesiyle ilk kez sınırlandırdığı 1808 tarihli belge hangisidir?", options: ["Sened-i İttifak", "Tanzimat Fermanı", "Islahat Fermanı", "Kanun-ı Esasi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Osmanlı Devleti'nde Divan toplantılarında alınan kararların kaydedildiği defterlere ne ad verilir?", options: ["Mühimme Defterleri", "Tahrir Defterleri", "Şeriye Sicilleri", "Tereke Defterleri"], answer: 0, tag: "Tarih" },
-  { q: "I. Dünya Savaşı'nda Osmanlı Devleti'nin taarruz amacıyla açtığı cepheler hangileridir?", options: ["Kafkas ve Kanal", "Çanakkale ve Irak", "Suriye ve Hicaz", "Galiçya ve Makedonya"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Milli Mücadele'de halkı bilinçlendirmek adına İzmir'in işgalinin mitinglerle protesto edilmesini isteyen ilk belge hangisidir?", options: ["Havza Genelgesi", "Amasya Genelgesi", "Erzurum Kongresi", "Sivas Kongresi"], answer: 0, tag: "Tarih" },
-  { q: "Milli Mücadele'de 'Milletin bağımsızlığını yine milletin azim ve kararı kurtaracaktır' ilkesi ilk kez nerede belirtilmiştir?", options: ["Amasya Genelgesi", "Havza Genelgesi", "Misak-ı Milli", "Alaşehir Kongresi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Bütün milli cemiyetlerin tek bir çatı altında birleştirildiği kongre hangisidir?", options: ["Sivas Kongresi", "Erzurum Kongresi", "Balıkesir Kongresi", "Alaşehir Kongresi"], answer: 0, tag: "Tarih" },
-  { q: "Temsil Heyeti'nin hukuki varlığını İstanbul Hükümeti ilk kez nerede resmen tanımıştır?", options: ["Amasya Görüşmeleri", "Bilecik Görüşmeleri", "Mudanya Mütarekesi", "Lozan Görüşmeleri"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "TBMM'yi ve Misak-ı Milli'yi tanıyan ilk Avrupalı büyük devlet hangisidir?", options: ["Sovyet Rusya", "Fransa", "İtalya", "İngiltere"], answer: 0, tag: "Tarih" },
-  { q: "Kurtuluş Savaşı sırasında Batı Cephesi'nde Kuva-yı Milliye'nin düzenli orduya geçişini hızlandıran başarısız taarruz hangisidir?", options: ["Gediz Taarruzu", "Aslıhanlar Taarruzu", "İnönü Taarruzu", "Dumlupınar Taarruzu"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Mustafa Kemal Paşa'ya Başkomutanlık yetkisi hangi savaşın kaybedilmesinin ardından verilmiştir?", options: ["Eskişehir-Kütahya Savaşları", "I. İnönü Savaşı", "II. İnönü Savaşı", "Gediz Muharebesi"], answer: 0, tag: "Tarih" },
-  { q: "Fransa ile TBMM arasında imzalanarak Güney Cephesi'ni kapatan antlaşma hangisidir?", options: ["1921 Ankara Antlaşması", "Gümrü Antlaşması", "Kars Antlaşması", "Mudanya Mütarekesi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Lozan Barış Konferansı'na TBMM adına başdelege olarak katılan heyet başkanı kimdir?", options: ["İsmet İnönü", "Rauf Orbay", "Ali Fethi Okyar", "Bekir Sami Kunduh"], answer: 0, tag: "Tarih" },
-  { q: "Yeni Türk Devleti'nde milli ekonominin esaslarının belirlendiği Misak-ı İktisadi kararları nerede alınmıştır?", options: ["İzmir İktisat Kongresi", "Ankara Kongresi", "Sivas Kongresi", "Erzurum Kongresi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Türkiye'de çok partili hayata geçişin ilk denemesi olan parti hangisidir?", options: ["Terakkiperver Cumhuriyet Fırkası", "Serbest Cumhuriyet Fırkası", "Ahali Fırkası", "Demokrat Parti"], answer: 0, tag: "Tarih" },
-  { q: "Kabotaj Kanunu'nun kabulü Türk denizlerinde ticaret hakkını millileştirmesi sebebiyle doğrudan hangi Atatürk ilkesiyle ilgilidir?", options: ["Milliyetçilik", "Devletçilik", "Cumhuriyetçilik", "İnkılapçılık"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Boğazlar Komisyonu kaldırılarak Boğazların hakimiyetinin tamamen Türkiye'ye bırakıldığı sözleşme hangisidir?", options: ["Montrö Boğazlar Sözleşmesi", "Lozan Barış Antlaşması", "Mudanya Mütarekesi", "Londra Sözleşmesi"], answer: 0, tag: "Tarih" },
-  { q: "Hatay Cumhuriyeti'nin ilk ve tek cumhurbaşkanı kimdir?", options: ["Tayfur Sökmen", "Abdurrahman Melek", "Şükrü Saracoğlu", "Ahmet Türkpençe"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Osmanlı Devleti'nde şehzadelerin sancağa çıkma usulünü kaldıran padişah kimdir?", options: ["III. Mehmed", "I. Ahmed", "II. Selim", "IV. Murad"], answer: 0, tag: "Tarih" },
-  { q: "Kapıkulu ocaklarına asker yetiştirmek amacıyla I. Murad döneminde kurulan ilk askeri kışla hangisidir?", options: ["Acemi Ocağı", "Yeniçeri Ocağı", "Cebeci Ocağı", "Topçu Ocağı"], answer: 0, tag: "Tarih" },
-  { q: "Osmanlı minyatür sanatçılarına verilen unvan aşağıdakilerden hangisidir?", options: ["Nakkaş", "Hattat", "Müzehhib", "Hakkak"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Divan-ı Hümayun'da sadrazam sefere çıktığında başkentte yerine vekalet eden devlet adamı kimdir?", options: ["Sadaret Kaymakamı", "Kazasker", "Nişancı", "Kaptan-ı Derya"], answer: 0, tag: "Tarih" },
-  { q: "Türk tarihinde ilk kez kendi adına para bastıran Türk hükümdarı kimdir?", options: ["Baga Tarkan (Türgişler)", "Mete Han", "Bumin Kağan", "Kutluk Kağan"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  // ==================== TARİH (30 SORU) ====================
+  // İslamiyet Öncesi (4)
+  { q: "Türk tarihinde ilk kez hükümdarın yetkilerini sınırlandıran töre hükümleri hangi mecliste denetlenirdi?", options: ["Kurultay (Toy)", "Ayukı", "Komenton", "İhtiyarlar"], answer: 0, tag: "Tarih" },
+  { q: "İslamiyet öncesi Türk devletlerinde hükümdarın tahta çıkışında halka ikram ettiği büyük ziyafetlere ne ad verilir?", options: ["Toy (Şölen)", "Yuğ", "Kurgan", "Balbal"], answer: 0, tag: "Tarih" },
+  { q: "Eski Türklerde devletin batı kanadını yöneten hükümdar soyundan gelen yöneticilere hangi unvan verilirdi?", options: ["Yabgu", "Tudun", "Bitikçi", "Ayguçı"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Maniheizm inancını kabul ederek tapınak mimarisini başlatan ve yerleşik hayata geçen ilk Türk devleti hangisidir?", options: ["Uygurlar", "Göktürkler", "Hazarlar", "Kırgızlar"], answer: 0, tag: "KPSS ÇIKMIŞ" },
 
-  // --- COĞRAFYA: ÇIKMIŞ KPSS VE ÖZGÜN SORULAR (20 Soru) ---
-  { q: "Türkiye'de doğu ile batı arasındaki yerel saat farkı kaç dakikadır?", options: ["76 Dakika", "60 Dakika", "44 Dakika", "82 Dakika"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Aşağıdaki göllerden hangisi bir karstik oluşumlu göl özelliği taşır?", options: ["Salda Gölü", "Van Gölü", "Terkos (Durusu)", "Çıldır Gölü"], answer: 0, tag: "Coğrafya" },
-  { q: "Türkiye'nin en büyük delta ovası olan Çukurova'yı oluşturan akarsular hangileridir?", options: ["Seyhan ve Ceyhan", "Kızılırmak ve Yeşilırmak", "Gediz ve Bakırçay", "Fırat ve Dicle"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Türkiye'de güneş ışınlarının hiçbir zaman dik açıyla (90 derece) düşmemesinin temel sebebi nedir?", options: ["Dönencelerin dışında yer alması (Matematik Konum)", "Yükseltinin batıdan doğuya artması", "Etrafının denizlerle çevrili olması", "Dağların doğu-batı uzanması"], answer: 0, tag: "Coğrafya" },
-  { q: "Karadeniz ve Akdeniz'de dağların kıyıya paralel uzanmasının doğal bir sonucu olarak hangi kıyı tipi görülür?", options: ["Boyuna Kıyı Tipi", "Enine Kıyı Tipi", "Ria Kıyı Tipi", "Dalmaçya Kıyı Tipi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Antalya Kaş kıyılarında adaların kıyıya paralel dizilmesiyle oluşan özel kıyı tipi hangisidir?", options: ["Dalmaçya Kıyı Tipi", "Ria Kıyı Tipi", "Boyuna Kıyı", "Kalanklı Kıyı"], answer: 0, tag: "Coğrafya" },
-  { q: "Türkiye'de rüzgar erozyonunun en şiddetli hissedildiği coğrafi bölge hangisidir?", options: ["İç Anadolu Bölgesi", "Karadeniz Bölgesi", "Doğu Anadolu Bölgesi", "Ege Bölgesi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Aşağıdaki ovalardan hangisi bir fay hattı çöküntüsü üzerinde oluşmuş 'tektonik' kökenli ovadır?", options: ["Erbaa Ovası", "Çarşamba Ovası", "Silifke Ovası", "Bafra Ovası"], answer: 0, tag: "Coğrafya" },
-  { q: "Türkiye'de volkanik patlama sonucu oluşan gaz patlaması çukurlarına (Maar) en bilinen örnek hangisidir?", options: ["Meke Tuzlası (Meke Maar Gölü)", "Nemrut Krater Gölü", "Uzungöl", "Tortum Gölü"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Akdeniz iklim bölgesinde kalkerli araziler üzerinde oluşan kırmızı renkli karakteristik toprak türü hangisidir?", options: ["Terra Rossa", "Çernezyom", "Podzol", "Laterit"], answer: 0, tag: "Coğrafya" },
-  { q: "Erzurum-Kars platosunda çayır bitki örtüsü altında gelişen, dünyanın en verimli yerli toprağı sayılan toprak hangisidir?", options: ["Çernezyom (Kara Toprak)", "Kahverengi Bozkır", "Alüvyal Toprak", "Regosol"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Türkiye'de nemlilik ve yağış rejiminin en düzenli olduğu, dolayısıyla yıllık sıcaklık farkının en az olduğu bölge hangisidir?", options: ["Doğu Karadeniz Kıyıları", "Güneydoğu Anadolu", "İç Batı Anadolu", "Ergene Bölümü"], answer: 0, tag: "Coğrafya" },
-  { q: "Akdeniz kıyılarında makilerin tahrip edilmesiyle ortaya çıkan kısa boylu bodur çalı topluluğuna ne ad verilir?", options: ["Garig (Frigana)", "Psödomaki", "Bozkır", "Antropojen Bozkır"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Türkiye'de heyelan olaylarının en fazla ilkbahar aylarında görülmesinin temel nedeni nedir?", options: ["Kar erimeleri ve killi toprak yapısı", "Aşırı rüzgar fırtınaları", "Bitki örtüsünün kuruması", "Fay hatlarının kırılması"], answer: 0, tag: "Coğrafya" },
-  { q: "Aşağıdaki platolardan hangisi karstik erime süreçleriyle oluşmuş kalkerli bir platodur?", options: ["Teke Platosu", "Bozok Platosu", "Haymana Platosu", "Yazılıkaya Platosu"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Ege Bölgesi'nde horst ve graben sisteminde kırılmayla çöken sahalarda oluşan graben ovalarından biri hangisidir?", options: ["Gediz Ovası", "Erbaa Ovası", "Malatya Ovası", "Iğdır Ovası"], answer: 0, tag: "Coğrafya" },
-  { q: "Türkiye'de demir-çelik sanayisinin Karabük ve İskenderun'da kurulmasında sırasıyla hangi faktörler etkili olmuştur?", options: ["Enerji kaynağına yakınlık - Ulaşım (Liman)", "Hammaddeye yakınlık - Pazar", "İklim şartları - İş gücü", "Su kaynakları - Sermaye"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Türkiye'de petrolün ilk kez çıkarıldığı ve rafinerisi bulunan Güneydoğu Anadolu Dağı hangisidir?", options: ["Raman Dağı", "Cudi Dağı", "Gabar Dağı", "Karacadağ"], answer: 0, tag: "Coğrafya" },
-  { q: "Türkiye'nin elektrik üretiminde jeotermal enerjiden yararlandığı ilk santral hangi ilimizdedir?", options: ["Denizli (Sarayköy)", "Manisa (Alaşehir)", "Aydın (Germencik)", "İzmir (Balçova)"], answer: 0, tag: "KPSS ÇIKMIŞ" },
-  { q: "Rize ve çevresinde turunçgil ve çay tarımının yapılabilmesini sağlayan mikroklima alanı oluşturan yerel rüzgar hangisidir?", options: ["Föhn Rüzgarı", "Poyraz", "Lodos", "Karayel"], answer: 0, tag: "Coğrafya" }
+  // İlk Türk-İslam (4)
+  { q: "Büyük Selçuklu Devleti'nde ordu mensuplarının maaş, silah ve lojistik işlerini yürüten divan hangisidir?", options: ["Divan-ı Arz (Ceyş)", "Divan-ı İstifa", "Divan-ı İnşa", "Divan-ı İşraf"], answer: 0, tag: "Tarih" },
+  { q: "Türk-İslam devletlerinde ticareti geliştirmek amacıyla kervan yolları üzerine inşa edilen korunaklı konaklama yapılarına ne ad verilir?", options: ["Ribat (Kervansaray)", "Kümbet", "Bedesten", "Arasta"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Gazneli Mahmut'un 'Sarayımın en değerli hazinesi' dediği ve astronomi/fizik alanında çalışan İslam bilgini kimdir?", options: ["El-Biruni", "Farabi", "İbni Sina", "Harezmi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Anadolu Selçuklularında esnaf ve zanaatkarların dayanışmasını sağlayan dini-iktisadi teşkilat hangisidir?", options: ["Ahilik Teşkilatı", "İltizam", "Gedik", "Lonca"], answer: 0, tag: "Tarih" },
+
+  // Osmanlı Siyasi & Kültür (10)
+  { q: "Osmanlı Devleti'nde beylikten devlete geçiş süreci hangi hükümdar döneminde gerçekleşmiştir?", options: ["Orhan Bey", "Osman Bey", "I. Murad", "Yıldırım Bayezid"], answer: 0, tag: "Tarih" },
+  { q: "Fatih Sultan Mehmet döneminde Karadeniz'i bir Türk gölü haline getiren son önemli fethin yapıldığı yer neresidir?", options: ["Kırım", "Trabzon", "Sinop", "Amasra"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Osmanlı Devleti'nde veraset sisteminde 'Ekber ve Erşed' (en yaşlı ve olgun hanedan üyesinin tahta geçmesi) kuralını getiren padişah kimdir?", options: ["I. Ahmed", "II. Osman", "IV. Murad", "III. Mehmed"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Sadrazamın padişah adına çıkardığı yazılı idari emirlere ne ad verilirdi?", options: ["Buyruldu", "Ferman", "Hatt-ı Hümayun", "Berat"], answer: 0, tag: "Tarih" },
+  { q: "Osmanlı ordusunda kale kuşatmalarında bomba ve el humbarası hazırlayan teknik sınıf hangisidir?", options: ["Humbaracılar", "Lağımcılar", "Cebeciler", "Topçular"], answer: 0, tag: "Tarih" },
+  { q: "Gelirleri sınır boylarındaki komutanlara ve kale muhafızlarına ayrılan dirlik arazisine ne ad verilir?", options: ["Yurtluk ve Ocaklık", "Paşmaklık", "Mukataa", "Malikane"], answer: 0, tag: "Tarih" },
+  { q: "Osmanlı Devleti'nde gayrimüslim tebaadan alınan toprak/ürün vergisi hangisidir?", options: ["Haraç", "Öşür", "Ağnam", "Avarız"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Lale Devri'nin sona ermesine yol açan ve III. Ahmed'in tahttan indirilmesiyle sonuçlanan ayaklanma hangisidir?", options: ["Patrona Halil İsyanı", "Kabakçı Mustafa İsyanı", "Çınar Vakası", "Buçuktepe İsyanı"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Osmanlı Devleti'nde ilk kez tüm tebaayı kanun önünde eşit sayan ve askerliği vatan görevi haline getiren belge hangisidir?", options: ["Tanzimat Fermanı", "Sened-i İttifak", "Islahat Fermanı", "Kanun-ı Esasi"], answer: 0, tag: "Tarih" },
+  { q: "II. Mahmut döneminde memurların yargılanması ve devlet reformlarının hazırlanması için kurulan yüksek meclis hangisidir?", options: ["Meclis-i Vala-yı Ahkam-ı Adliye", "Darüşşura-yı Askeri", "Heyet-i Ayan", "Divan-ı Ahkam-ı Adliye"], answer: 0, tag: "Tarih" },
+
+  // Milli Mücadele & İnkılap (9)
+  { q: "Mustafa Kemal Paşa'nın 'Artık İstanbul Anadolu'ya hakim değil, tabi olmak mecburiyetindedir' sözünü söylediği belge hangisidir?", options: ["Amasya Genelgesi", "Havza Genelgesi", "Erzurum Kongresi", "Sivas Kongresi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Manda ve himaye fikrinin kesin ve son kez reddedildiği milli kongre hangisidir?", options: ["Sivas Kongresi", "Erzurum Kongresi", "Balıkesir Kongresi", "Alaşehir Kongresi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Son Osmanlı Mebusan Meclisi'nin kabul ettiği ve milli sınırları çizen tarihi bildiri hangisidir?", options: ["Misak-ı Milli", "Amasya Protokolü", "Teşkilat-ı Esasiye", "Tekalif-i Milliye"], answer: 0, tag: "Tarih" },
+  { q: "TBMM'nin varlığına karşı çıkan iç ayaklanmaları bastırmak amacıyla kurulan olağanüstü mahkemeler hangisidir?", options: ["İstiklal Mahkemeleri", "Divan-ı Harp", "Nizamiye Mahkemeleri", "Şeriye Mahkemeleri"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kurtuluş Savaşı'nda Batı Cephesi Komutanlığı'na atanan ve İnönü savaşlarını kazanan komutan kimdir?", options: ["İsmet İnönü", "Fevzi Çakmak", "Refet Bele", "Ali Fuat Cebesoy"], answer: 0, tag: "Tarih" },
+  { q: "Mustafa Kemal Atatürk'ün 'Ordular, ilk hedefiniz Akdeniz'dir. İleri!' tarihi emrini verdiği zafer hangisidir?", options: ["Başkomutanlık Meydan Muharebesi (Büyük Taarruz)", "Sakarya Meydan Muharebesi", "II. İnönü Muharebesi", "Dumlupınar Baskını"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Lozan Barış Antlaşması'nda çözüme kavuşturulamayıp sonradan Türkiye lehine sonuçlanan Boğazlar rejimi hangi sözleşmeyle kesinleşmiştir?", options: ["Montrö Boğazlar Sözleşmesi", "Sadabat Paktı", "Londra Antlaşması", "Balkan Antantı"], answer: 0, tag: "Tarih" },
+  { q: "1924 yılında kurulan Türkiye Cumhuriyeti'nin ilk özel ticaret bankası hangisidir?", options: ["Türkiye İş Bankası", "Sümerbank", "Etibank", "Ziraat Bankası"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türk Ceza Kanunu Cumhuriyet döneminde hangi Avrupa ülkesinin ceza kanunu örnek alınarak hazırlanmıştır?", options: ["İtalya", "İsviçre", "Almanya", "Fransa"], answer: 0, tag: "Tarih" },
+
+  // Çağdaş Türk ve Dünya (3)
+  { q: "İkinci Dünya Savaşı sonrasında dünya barışını korumak amacıyla Milletler Cemiyeti yerine kurulan uluslararası örgüt hangisidir?", options: ["Birleşmiş Milletler (BM)", "NATO", "Varşova Paktı", "Avrupa Konseyi"], answer: 0, tag: "Tarih" },
+  { q: "Türkiye Cumhuriyeti hangi savaşa tugay göndererek 1952 yılında NATO'ya resmen üye olmuştur?", options: ["Kore Savaşı", "Vietnam Savaşı", "Körfez Savaşı", "Kosova Harekatı"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kıbrıs'ta Türklerin can ve mal güvenliğini korumak amacıyla 1974 yılında icra edilen askeri harekat hangisidir?", options: ["Kıbrıs Barış Harekatı", "Atilla Harekatı", "Akdeniz Kalkanı", "Yıldız Harekatı"], answer: 0, tag: "Tarih" },
+
+  // ==================== COĞRAFYA (30 SORU) ====================
+  // Coğrafi Konum & Fiziki (6)
+  { q: "Türkiye'nin en kuzeyi (Sinop İnceburun) ile en güneyi (Hatay Beşaslan) arasında kaç paralel farkı vardır?", options: ["6 Paralel (666 km)", "19 Paralel", "12 Paralel", "4 Paralel"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de 21 Haziran tarihinde kuzeye doğru gidildikçe gündüz süresinin uzaması hangi durumun sonucudur?", options: ["Matematik (Mutlak) Konum", "Özel Konum", "Yükselti", "Boylam Farkı"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'de dağların genel olarak doğu-batı doğrultusunda uzanmasının temel jeolojik sebebi nedir?", options: ["Kuzeyden Avrasya ve güneyden Afrika/Arabistan levhalarının sıkıştırması", "İç püskürük volkanizma", "Buzullaşma etkileri", "Kalker erimeleri"], answer: 0, tag: "Coğrafya" },
+  { q: "Karadeniz kıyılarında deniz seviyesinden itibaren yükselen dağların kıyıya paralel olması hangi tür yağışların oluşmasını sağlar?", options: ["Yamaç (Orografik) Yağışları", "Konveksiyonel Yağışlar", "Cephesel (Frontal) Yağışlar", "Siklonik Yağışlar"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "İstanbul ve Çanakkale boğazları ile Haliç kıyıları jeomorfolojik olarak hangi kıyı tipine örnektir?", options: ["Ria Kıyı Tipi", "Dalmaçya Kıyı Tipi", "Fiyort Kıyı Tipi", "Boyuna Kıyı Tipi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kıyı oku ve dalga birikimiyle bir koy veya körfezin önünün kapanması sonucu oluşan kıyı set göllerine (Lagün) en net örnek hangisidir?", options: ["Büyükçekmece ve Küçükçekmece", "Beyşehir ve Eğirdir", "Abant ve Yedigöller", "Nemrut Gölü"], answer: 0, tag: "Coğrafya" },
+
+  // İklim & Bitki Örtüsü (5)
+  { q: "İç Anadolu Bölgesi'nde ilkbahar aylarında ısınan havanın yükselmesiyle oluşan ve halk arasında 'Kırkikindi' denilen yağış türü hangisidir?", options: ["Konveksiyonel (Yükselim) Yağışları", "Orografik Yağışlar", "Cephe Yağışları", "Muson Yağışları"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de orman üst sınırını belirleyen en temel coğrafi faktör hangisidir?", options: ["Sıcaklık yetersizliği", "Nemlilik", "Toprak cinsi", "Rüzgar hızı"], answer: 0, tag: "Coğrafya" },
+  { q: "Karadeniz bölgesinde ormanların tahrip edildiği alanlarda oluşan kısa boylu çalı topluluklarına ne ad verilir?", options: ["Psödomaki (Yalancı Maki)", "Garig", "Bozkır", "Antropojen Bozkır"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'de kış mevsiminde Sibirya termik yüksek basıncının etkili olduğu dönemlerde hava nasıl bir karaktere bürünür?", options: ["Ayaz, açık ve aşırı soğuk", "Ilık ve bol yağışlı", "Fırtınalı ve nemli", "Sisli ve ılık"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Toros Dağları'nın Akdeniz'e bakan güney yamaçlarının kuzey yamaçlarına göre daha sıcak olması hangi coğrafi etkiyle açıklanır?", options: ["Bakı Etkisi", "Boylam Etkisi", "Yükselti Etkisi", "Karasallık"], answer: 0, tag: "Coğrafya" },
+
+  // Yer Şekilleri, Su & Toprak (6)
+  { q: "Akarsuların biriktirme yapabilmesi ve delta ovası oluşturabilmesi için kıyıda hangi şartın bulunmaması gerekir?", options: ["Güçlü gelgit (gelgit genliği) ve kuvvetli akıntılar", "Bol alüvyon taşınması", "Kıta sahanlığının geniş olması", "Kıyının sığ olması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Kalker, jips ve kaya tuzu gibi kolay eriyebilen kayaçların yaygın olduğu Akdeniz ve Sivas yöresinde hangi tür topoğrafya gelişir?", options: ["Karstik Topoğrafya", "Volkanik Topoğrafya", "Buzul Topoğrafyası", "Rüzgar Aşınım Topoğrafyası"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'de sönmüş bir volkan konisi üzerinde bulunan ve dünyanın en büyük ikinci krater gölü olan göl hangisidir?", options: ["Nemrut Krater Gölü (Bitlis)", "Meke Gölü", "Gölcük Gölü", "Van Gölü"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Heyelan set göllerine Karadeniz Bölgesi'nden verilebilecek en tipik örnekler hangileridir?", options: ["Tortum, Sera, Abant ve Yedigöller", "Beyşehir ve Eğirdir", "Bafa (Çamiçi) ve Köyceğiz", "Çıldır ve Erçek"], answer: 0, tag: "Coğrafya" },
+  { q: "Eski göl tabanlarındaki killi ve kireçli depolar üzerinde oluşan, halk arasında 'taş doğuran' veya 'dönen toprak' denilen toprak cinsi hangisidir?", options: ["Vertisol", "Rendzina", "Podzol", "Regosol"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Doğu Anadolu Fay Hattı (DAF) üzerinde yer alan ve tektonik çöküntü sonucu oluşmuş ovalardan biri hangisidir?", options: ["Amik Ovası", "Bafra Ovası", "Menemen Ovası", "Çarşamba Ovası"], answer: 0, tag: "Coğrafya" },
+
+  // Nüfus & Yerleşme (4)
+  { q: "Türkiye'de aritmetik nüfus yoğunluğunun en az olduğu coğrafi bölge hangisidir?", options: ["Doğu Anadolu Bölgesi", "İç Anadolu Bölgesi", "Karadeniz Bölgesi", "Güneydoğu Anadolu"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Karadeniz Bölgesi'nde kırsal yerleşmelerin dağınık dokulu olmasında rol oynayan iki temel faktör hangisidir?", options: ["Engebeli arazi yapısı ve su kaynaklarının bolluğu", "Düz araziler ve kuraklık", "Toplu tarım alanları ve ulaşım", "Orman yangınları ve rüzgar"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Köy altı yerleşmelerinden olan ve Doğu/Güneydoğu Anadolu'da küçükbaş hayvancılık için kullanılan geçici yerleşme tipi hangisidir?", options: ["Kom", "Divan", "Mezra", "Mahalle"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'de son yıllarda nüfus artış hızının düşmesi sebebiyle gelecekte ortaya çıkması beklenen en belirgin demografik değişim nedir?", options: ["Yaşlı nüfus oranının artması ve ortanca yaşın yükselmesi", "Çocuk nüfus oranının patlaması", "Kırsal nüfusun kentsel nüfusu geçmesi", "Genç bağımlı nüfusun artması"], answer: 0, tag: "Coğrafya" },
+
+  // Tarım & Hayvancılık (4)
+  { q: "Güneydoğu Anadolu Projesi'nin (GAP) devreye girmesi ve sulama olanaklarının artmasıyla üretiminde Türkiye birincisi haline gelen sanayi bitkisi hangisidir?", options: ["Pamuk", "Tütün", "Şeker Pancarı", "Haşhaş"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de iklim seçiciliği en az olan, kurağa ve soğuğa karşı oldukça dayanıklı olduğu için ekim alanı en geniş tahıl hangisidir?", options: ["Arpa ve Buğday", "Pirinç (Çeltik)", "Mısır", "Yulaf"], answer: 0, tag: "Coğrafya" },
+  { q: "Akdeniz Bölgesi'nde engebeli kalkerli arazilere ve makiliklere uyum sağladığı için yetiştiriciliği yaygın olan küçükbaş hayvan türü hangisidir?", options: ["Kıl Keçisi", "Merinos Koyunu", "Tiftik Keçisi", "Kıvırcık Koyun"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Gelişmiş tüketici pazarlarına yakınlık nedeniyle kümes hayvancılığının (tavukçuluk) en fazla yoğunlaştığı bölge hangisidir?", options: ["Marmara ve Ege Bölgeleri", "Doğu Anadolu", "Karadeniz", "Güneydoğu Anadolu"], answer: 0, tag: "Coğrafya" },
+
+  // Madenler, Enerji & Sanayi (5)
+  { q: "Dünya rezervlerinin yaklaşık %73'ü Türkiye'de bulunan; Balıkesir (Bigadiç), Kütahya (Emet) ve Eskişehir'de (Seyitgazi) çıkarılan stratejik maden hangisidir?", options: ["Bor", "Krom", "Bakır", "Boksit"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Alüminyumun hammaddesi olan ve Antalya Akseki ile Konya Seydişehir'de çıkarılıp işlenen maden hangisidir?", options: ["Boksit", "Barit", "Krom", "Manganez"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'nin elektrik üretiminde yerli linyit kömürü ile çalışan büyük termik santrallerden biri hangisidir?", options: ["Afşin-Elbistan", "Hamitabat", "Çatalağzı", "Ovaakça"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'de ilk rüzgar enerjisi santrali hangi ilimizde ve ilçemizde kurulmuştur?", options: ["İzmir (Çeşme - Alaçatı)", "Balıkesir (Bandırma)", "Çanakkale (Bozcaada)", "Aydın (Didim)"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Hammaddeye yakınlık ilkesi doğrultusunda çay işleme fabrikalarının tamamının Doğu Karadeniz kıyısında toplanmasının temel sebebi nedir?", options: ["Çay yaprağının toplandıktan sonra çok çabuk bozulması", "Ulaşım maliyetlerinin ucuz olması", "Enerji santrallerine yakınlık", "Yalnızca bölgede işçi bulunması"], answer: 0, tag: "Coğrafya" }
 ];
 
-// 1. Şık Karıştırma: Her sorunun doğru cevabını rastgele şıklara dağıt
+// 1. Şıkları Karıştır (Doğru seçenek rastgele dağılsın)
 questions.forEach(qObj => {
   const correctText = qObj.options[qObj.answer];
   for (let i = qObj.options.length - 1; i > 0; i--) {
@@ -151,7 +181,7 @@ questions.forEach(qObj => {
   qObj.answer = qObj.options.indexOf(correctText);
 });
 
-// 2. Soru Sıralaması Karıştırma: Tarih ve Coğrafyayı tamamen harmanla
+// 2. Soruları Karıştır (Tarih ve Coğrafya rastgele harmanlansın)
 for (let i = questions.length - 1; i > 0; i--) {
   const j = Math.floor(Math.random() * (i + 1));
   [questions[i], questions[j]] = [questions[j], questions[i]];
@@ -180,7 +210,7 @@ function enterGame() {
   peer.on('open', (id) => {
     isHost = true;
     myPeerId = id;
-    players.push({ id: myPeerId, name: myName, score: 0, streak: 0, answer: null, answerTime: 0 });
+    players.push({ id: myPeerId, name: myName, score: 0, streak: 0, answer: null, answerTime: 0, wasCorrect: false });
     document.getElementById('host-actions').style.display = 'block';
     document.getElementById('wait-msg').style.display = 'none';
     renderLobby();
@@ -217,7 +247,7 @@ function joinAsClient() {
 
 function handleHostData(conn, data) {
   if (data.type === 'JOIN') {
-    players.push({ conn, id: conn.peer, name: data.name, score: 0, streak: 0, answer: null, answerTime: 0 });
+    players.push({ conn, id: conn.peer, name: data.name, score: 0, streak: 0, answer: null, answerTime: 0, wasCorrect: false });
     renderLobby();
     broadcast({ type: 'LOBBY_UPDATE', players: players.map(p => ({ name: p.name, score: p.score })) });
   } else if (data.type === 'SUBMIT_ANSWER') {
@@ -255,7 +285,7 @@ function nextQuestion() {
     return;
   }
 
-  players.forEach(p => { p.answer = null; p.answerTime = 0; });
+  players.forEach(p => { p.answer = null; p.answerTime = 0; p.wasCorrect = false; });
 
   const q = questions[currentQ];
   const qData = {
@@ -301,6 +331,7 @@ function evaluateRound() {
 
   players.forEach(p => {
     if (p.answer === correctIdx) {
+      p.wasCorrect = true;
       p.streak += 1;
       let gained = 300 + (p.answerTime * 20);
 
@@ -317,6 +348,7 @@ function evaluateRound() {
 
       p.score += gained;
     } else {
+      p.wasCorrect = false;
       p.streak = 0;
     }
   });
@@ -326,14 +358,19 @@ function evaluateRound() {
   const resultData = {
     type: 'ROUND_OVER',
     correctAnswer: questions[currentQ].options[correctIdx],
-    leaderboard: players.map(p => ({ name: p.name, score: p.score, streak: p.streak })),
+    leaderboard: players.map(p => ({ 
+      name: p.name, 
+      score: p.score, 
+      streak: p.streak,
+      wasCorrect: p.wasCorrect 
+    })),
     isLast: currentQ + 1 >= questions.length
   };
 
   broadcast(resultData);
   handleClientData(resultData);
 
-  // 5 Saniye Skor Tablosu
+  // 5 Saniyelik Bekleme
   if (!resultData.isLast) {
     setTimeout(() => {
       nextQuestion();
@@ -362,7 +399,6 @@ function handleClientData(data) {
 
     document.getElementById('q-counter').innerText = `Soru ${data.index + 1}/${data.total}`;
     
-    // Etiket yönetimi
     const tagElem = document.getElementById('q-cat');
     tagElem.innerText = data.tag;
     if (data.tag === 'KPSS ÇIKMIŞ') tagElem.className = 'cat-badge cat-cikmis';
@@ -391,16 +427,21 @@ function handleClientData(data) {
 
     document.getElementById('round-correct-ans').innerText = `Doğru Cevap: ${data.correctAnswer}`;
     const lb = document.getElementById('leaderboard');
-    lb.innerHTML = data.leaderboard.map((p, i) => `
-      <div class="leaderboard-row">
-        <span>#${i + 1} ${p.name} ${p.streak >= 2 ? '🔥' + p.streak : ''}</span>
-        <span style="color:#38bdf8;">${p.score} Puan</span>
-      </div>
-    `).join('');
+    
+    // Yanlış yapana eşek emojisi (🫏), bilene rozet
+    lb.innerHTML = data.leaderboard.map((p, i) => {
+      const statusIcon = p.wasCorrect ? (p.streak >= 2 ? `🔥x${p.streak}` : '✅') : '🙉';
+      return `
+        <div class="leaderboard-row">
+          <span>#${i + 1} ${p.name} <span style="font-size: 18px; margin-left: 6px;">${statusIcon}</span></span>
+          <span style="color:#38bdf8;">${p.score} Puan</span>
+        </div>
+      `;
+    }).join('');
   } else if (data.type === 'GAME_OVER') {
     document.getElementById('quiz-card').style.display = 'none';
     document.getElementById('round-card').style.display = 'block';
-    document.getElementById('round-result-title').innerText = "🏆 50 Soru Tamamlandı! 🏆";
+    document.getElementById('round-result-title').innerText = "🏆 60 Soru Tamamlandı! 🏆";
     document.getElementById('round-correct-ans').innerText = "Yarışma sona erdi.";
   }
 }
