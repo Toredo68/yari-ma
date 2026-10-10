@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>AGS Tarih - 100 Yeni Soru Maratonu</title>
+  <title>KPSS Tarih & Coğrafya Karışık Yarışma</title>
   <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
   <style>
     * { box-sizing: border-box; }
@@ -21,18 +21,18 @@
     .badge { background: #0f172a; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #94a3b8; border: 1px solid #334155; }
     .player-chip { background: #0f172a; border: 1px solid #334155; padding: 8px 14px; border-radius: 20px; margin: 4px; display: inline-block; font-size: 14px; }
     .leaderboard-row { display: flex; justify-content: space-between; padding: 12px; background: #0f172a; border-radius: 8px; margin-bottom: 8px; font-weight: 600; }
-    .diff-badge { font-size: 12px; padding: 4px 8px; border-radius: 6px; font-weight: bold; }
-    .diff-orta { background: #0369a1; color: #bae6fd; }
-    .diff-zor { background: #b45309; color: #fef3c7; }
-    .diff-eleyici { background: #be123c; color: #ffe4e6; }
+    .cat-badge { font-size: 12px; padding: 4px 8px; border-radius: 6px; font-weight: bold; margin-left: 6px; }
+    .cat-cikmis { background: #dc2626; color: #fee2e2; }
+    .cat-tarih { background: #2563eb; color: #dbeafe; }
+    .cat-cografya { background: #059669; color: #d1fae5; }
   </style>
 </head>
 <body>
 
   <!-- GİRİŞ EKRANI -->
   <div id="login-card" class="card">
-    <h2>AGS Tarih Maratonu (100 Soru)</h2>
-    <p style="text-align: center; color: #94a3b8; font-size: 14px;">Tamamen Yeni Sorular | 5sn Skor Ekranı | Comeback Sistemi</p>
+    <h2>KPSS GY-GK Maratonu</h2>
+    <p style="text-align: center; color: #94a3b8; font-size: 14px;">30 Tarih + 20 Coğrafya (Karışık & Çıkmış Sorular)</p>
     <input type="text" id="my-name" placeholder="Yarışmacı Adınızı Yazın..." maxlength="15">
     <button class="btn" onclick="enterGame()">Lobiye Katıl</button>
   </div>
@@ -56,8 +56,8 @@
   <div id="quiz-card" class="card" style="display: none;">
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <div>
-        <span class="badge" id="q-counter">Soru 1/100</span>
-        <span class="diff-badge" id="q-diff">Orta</span>
+        <span class="badge" id="q-counter">Soru 1/50</span>
+        <span id="q-cat" class="cat-badge">KPSS</span>
       </div>
       <span class="badge" id="time-text" style="color: #f59e0b;">20s</span>
     </div>
@@ -83,121 +83,65 @@
   </div>
 
 <script>
-const ROOM_NAME = "ags-tarih-100-v-yeni";
+const ROOM_NAME = "kpss-tarih-cografya-50-v1";
 
 const questions = [
-  // --- İSLAMİYET ÖNCESİ TÜRK TARİHİ (40 Soru) ---
-  { q: "Orta Asya'nın en eski kültür merkezi olarak kabul edilen ve Türk kültürünün ilk izlerini barındıran merkez neresidir?", options: ["Anav", "Afanasyevo", "Andronovo", "Karasuk"], answer: 0, diff: "Orta" },
-  { q: "İlk kez demir madenini işleyen ve dört tekerlekli arabaları kullanan Orta Asya kültür çevresi hangisidir?", options: ["Karasuk", "Tagar", "Anav", "Kelteminar"], answer: 0, diff: "Zor" },
-  { q: "Orta Asya kültürleri arasında en gelişmiş olan ve günümüz Hakas Türklerinin ataları sayılan kültür hangisidir?", options: ["Tagar", "Andronovo", "Afanasyevo", "Karasuk"], answer: 0, diff: "Zor" },
-  { q: "Çin kaynaklarında 'T'u-chüeh' olarak adlandırılan ve miğfer anlamına geldiği belirtilen Türk topluluğu hangisidir?", options: ["Göktürkler", "Hunlar", "Uygurlar", "Karluklar"], answer: 0, diff: "Orta" },
-  { q: "İslamiyet öncesi Türk devletlerinde hükümdarın emretme, kanun koyma ve yaptırım gücüne ne ad verilirdi?", options: ["Ülüg", "Kut", "Küç (Güç)", "Töre"], answer: 2, diff: "Eleyici" },
-  { q: "Kağana Tanrı tarafından verilen 'iktisadi paylaştırma, bolluk ve bereketi dağıtma' yetkisine ne ad verilir?", options: ["Ülüş (Ülüg)", "Kut", "Yarlığ", "İnanç"], answer: 0, diff: "Zor" },
-  { q: "Hükümdarın ağzından çıkan buyruk ve emirlerin yazılı haline eski Türklerde ne ad verilirdi?", options: ["Yarlığ", "Töre", "Yargu", "Toy"], answer: 0, diff: "Zor" },
-  { q: "Eski Türklerde devlet yazışmalarını yürüten, fermanları kaleme alan katiplere ne ad verilirdi?", options: ["Tamgacı (Bitikçi)", "Tudun", "Ağıcı", "Buyruk"], answer: 0, diff: "Orta" },
-  { q: "İslamiyet öncesinde hükümet (bakanlar kurulu) üyelerine verilen genel unvan hangisidir?", options: ["Buyruk (Bakan)", "Ayguçı", "Toygun", "Tarkan"], answer: 0, diff: "Zor" },
-  { q: "Kurultay toplantılarına katılma hakkı olan meclis üyelerine verilen ortak unvan hangisidir?", options: ["Toygun", "Ayukı", "Buyruk", "Tudun"], answer: 0, diff: "Orta" },
-  { q: "Peçeneklerin devlet yönetiminde aldıkları kararları görüştükleri meclislerine ne ad verilirdi?", options: ["Komenton", "Seçkinler Meclisi", "Millet Meclisi", "İhtiyarlar Meclisi"], answer: 0, diff: "Eleyici" },
-  { q: "Tuna Bulgarlarında devlet işlerinin karara bağlandığı istişare meclisine ne ad verilirdi?", options: ["Millet Meclisi", "Komenton", "Toy", "Yargu"], answer: 0, diff: "Eleyici" },
-  { q: "Hazarların yönetim teşkilatında yer alan ve farklı dinlerden temsilcilerin bulunduğu meclis hangisidir?", options: ["İhtiyarlar Meclisi", "Toygun", "Komenton", "Ayukı"], answer: 0, diff: "Zor" },
-  { q: "Avrupa Hun Devleti'nde Doğu Roma ile yapılan ve vergi miktarının iki katına çıkarıldığı 447 tarihli antlaşma hangisidir?", options: ["Anatolios Antlaşması", "Margus Antlaşması", "Belgrad Antlaşması", "Bükreş Antlaşması"], answer: 0, diff: "Orta" },
-  { q: "Uldız döneminde 'İstersem güneşin battığı yere kadar her yeri fethederim' resti hangi imparatorluğa çekilmiştir?", options: ["Doğu Roma (Bizans)", "Batı Roma", "Sasani", "Franklar"], answer: 0, diff: "Orta" },
-  { q: "Kuzey Çin'de kurulan, Budizm'i kabul eden ve Türk kültürünü Çin'de yaşatan devlet hangisidir?", options: ["Tabgaçlar", "Akhunlar", "Türgişler", "Kırgızlar"], answer: 0, diff: "Zor" },
-  { q: "Eftalitler adıyla da bilinen, Afganistan ve Kuzey Hindistan civarında hakimiyet kuran Türk devleti hangisidir?", options: ["Akhunlar", "Tabgaçlar", "Hazarlar", "Kimmerler"], answer: 0, diff: "Orta" },
-  { q: "İpek Yolu hakimiyeti için Bizans ile ittifak kurup Sasanilere karşı savaşan Göktürk yabgusu kimdir?", options: ["İstemi Yabgu", "Bumin Kağan", "Tardu", "Mukan Kağan"], answer: 0, diff: "Orta" },
-  { q: "I. Göktürk Devleti'nin en geniş sınırlara ulaştığı ve Kore'den Karadeniz'e kadar uzandığı hükümdar dönemi hangisidir?", options: ["Mukan Kağan", "Bumin Kağan", "Kolo Kağan", "Taspar Kağan"], answer: 0, diff: "Orta" },
-  { q: "I. Göktürk Devleti'nde Budizm'i benimseyip halkına kabul ettirmek istediği için kurultayca reddedilen kağan kimdir?", options: ["Taspar Kağan", "Mukan Kağan", "İşbara Kağan", "Bumin Kağan"], answer: 0, diff: "Eleyici" },
-  { q: "Türk tarihinde Çin'e karşı ilk bağımsızlık kıvılcımını başlatan Kürşad İhtilali'nin lideri Kürşad hangi hanedandandır?", options: ["Aşina", "Yağlakkar", "Dulo", "Aşide"], answer: 0, diff: "Zor" },
-  { q: "II. Göktürk (Kutluk) Devleti'nin ünlü devlet adamı Tonyukuk adına dikilen anıt yazıt nerede yer almaktadır?", options: ["Bayan-Çokto", "Moğolistan - Ulanbatur", "Koço", "Turfan"], answer: 0, diff: "Eleyici" },
-  { q: "Orhun Yazıtları'ndan Bilge Kağan ve Kül Tigin anıtlarının yazarı olan yeğenleri kimdir?", options: ["Yolluğ Tigin", "Baga Tarkan", "Tonyukuk", "İşbara"], answer: 0, diff: "Orta" },
-  { q: "Uygur Devleti'nin kurucu boyu olan ve hükümdar sülalesini oluşturan Uygur boyu hangisidir?", options: ["Yağlakkar", "Aşina", "Dulo", "Basmıl"], answer: 0, diff: "Eleyici" },
-  { q: "Uygurların Çin'deki Tibet isyanını bastırarak karşılığında Maniheizm inancını getirdiği hükümdar dönemi hangisidir?", options: ["Bögü Kağan", "Moyen-Çor", "Kutluk Bilge Kül Kağan", "Bayan Kağan"], answer: 0, diff: "Orta" },
-  { q: "Uygurlara ait olan ve göç nedenlerini, kutlu kayanın parçalanmasını anlatan destan hangisidir?", options: ["Göç Destanı", "Türeyiş Destanı", "Ergenekon", "Oğuz Kağan"], answer: 0, diff: "Orta" },
-  { q: "Uygurların kurttan türeme inancını yansıtan ve kutsal ışığı konu alan destanı hangisidir?", options: ["Türeyiş Destanı", "Göç Destanı", "Manas", "Alp Er Tunga"], answer: 0, diff: "Orta" },
-  { q: "Uygur Devleti'ne 840 yılında son vererek Ötüken'i ele geçiren Türk devleti hangisidir?", options: ["Kırgızlar", "Karluklar", "Basmıllar", "Türgişler"], answer: 0, diff: "Orta" },
-  { q: "Tarihte ilk kez posta teşkilatına benzer haberleşme ağını (Ulak sistemi) kuran Türk topluluğu hangisidir?", options: ["Hunlar", "Göktürkler", "Avarlar", "Hazarlar"], answer: 0, diff: "Zor" },
-  { q: "İslamiyet öncesinde sınır boylarında kurulan gözetleme kulelerine ve askeri karakollara ne ad verilirdi?", options: ["Kargu (Fener Kulesi)", "Stupa", "Bark", "Kurgan"], answer: 0, diff: "Eleyici" },
-  { q: "Eski Türklerde ölen kahramanların cesetlerinin konulduğu oda şeklindeki mezarlara ne ad verilirdi?", options: ["Kurgan", "Balbal", "Bark", "Stupa"], answer: 0, diff: "Orta" },
-  { q: "Eski Türklerde mezarın üzerine yapılan ve anıt mezar niteliği taşıyan yapıya ne ad verilirdi?", options: ["Bark", "Kurgan", "Balbal", "Tamga"], answer: 0, diff: "Zor" },
-  { q: "Boyların kendilerine ait hayvanları ve eşyaları işaretlemek için kullandıkları mühür veya sembole ne ad verilir?", options: ["Tamga (Damga)", "Ongun", "Tuğ", "Yarlığ"], answer: 0, diff: "Orta" },
-  { q: "Eski Türk boylarının kutsal saydığı ve totem kabul ettiği hayvan sembolüne ne ad verilir?", options: ["Ongun", "Tamga", "Yelme", "Kut"], answer: 0, diff: "Zor" },
-  { q: "İslamiyet öncesinde kağanın hükümdarlık alametleri arasında yer alan davula ne ad verilirdi?", options: ["Kavrık (Köbürge)", "Kotuz", "Orgin", "Tuğ"], answer: 0, diff: "Eleyici" },
-  { q: "Kağanın başlığına veya atının kuyruğuna takılan sorguç/püskül şeklindeki hükümdarlık sembolü hangisidir?", options: ["Kotuz (Sorguç)", "Tuğ", "Kemer (Kur)", "Yay"], answer: 0, diff: "Zor" },
-  { q: "Eski Türklerde hükümdarın tahtına verilen isim aşağıdakilerden hangisidir?", options: ["Örgün", "Köbürge", "Tuğ", "Kama"], answer: 0, diff: "Orta" },
-  { q: "Eski Türk toplumunda kölelik sisteminin bulunmamasının en temel sebebi nedir?", options: ["Göçebe yaşam ve toprağa bağlı mülkiyetin olmaması", "Askeri teşkilatın zayıflığı", "Nüfusun az olması", "Ticarete önem verilmemesi"], answer: 0, diff: "Orta" },
-  { q: "İslamiyet öncesi Türk ailesinde kız çocuklarına evlenirken babaları tarafından verilen çeyize ne ad verilirdi?", options: ["Yumuş (Kalın/Çeyiz)", "Öc", "Törün", "Bennak"], answer: 0, diff: "Eleyici" },
-  { q: "Eski Türklerde ilkbaharda doğanın uyanışı vesilesiyle kutlanan yeni yıl bayramı hangisidir?", options: ["Yılgayak (Nevruz)", "Ölgün", "Yuğ", "Şölen"], answer: 0, diff: "Orta" },
+  // --- TARİH: ÇIKMIŞ KPSS VE ÖZGÜN SORULAR (30 Soru) ---
+  { q: "Türk tarihinde Musevilik dinini kabul eden ilk ve tek Türk devleti hangisidir?", options: ["Hazarlar", "Avarlar", "Uygurlar", "Peçenekler"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Mısır'da kurulan ve ordu teşkilatı ile halkı tamamen Türk ve Arap unsurlardan oluşan ilk Türk-İslam devleti hangisidir?", options: ["Tolunoğulları", "İhşidiler", "Eyyubiler", "Memlükler"], answer: 0, tag: "Tarih" },
+  { q: "Büyük Selçuklu Devleti'nde resmi devlet yazışmalarını yürüten divan hangisidir?", options: ["Divan-ı İnşa (Tuğra)", "Divan-ı İstifa", "Divan-ı İşraf", "Divan-ı Arz"], answer: 0, tag: "Tarih" },
+  { q: "Osmanlı Devleti'nde ilk kez iç borçlanmaya (Esham Sistemi) hangi padişah döneminde gidilmiştir?", options: ["I. Abdülhamid", "III. Mustafa", "III. Selim", "II. Mahmud"], answer: 1, tag: "KPSS ÇIKMIŞ" },
+  { q: "Osmanlı ordusunda kale kuşatmalarında tüneller kazarak surları yıkan askeri sınıf hangisidir?", options: ["Lağımcılar", "Humbaracılar", "Cebeciler", "Turnacılar"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Osmanlı Devleti'nde gelirleri padişahın kızlarına, annesine ve hanımlarına verilen dirlik arazisi hangisidir?", options: ["Paşmaklık", "Mukataa", "Yurtluk", "Ocaklık"], answer: 0, tag: "Tarih" },
+  { q: "Kırım'ın Osmanlı Devleti'nden ayrılarak bağımsız hale geldiği antlaşma hangisidir?", options: ["Küçük Kaynarca Antlaşması", "Yaş Antlaşması", "Aynalıkavak Tenkihnamesi", "Pasarofça Antlaşması"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Osmanlı Devleti'nde Batı tarzında askeri ıslahat yapmak amacıyla kurulan Nizam-ı Cedit ordusu hangi padişah dönemine aittir?", options: ["III. Selim", "II. Mahmud", "I. Mahmud", "III. Ahmed"], answer: 0, tag: "Tarih" },
+  { q: "Padişahın yetkilerini kendi iradesiyle ilk kez sınırlandırdığı 1808 tarihli belge hangisidir?", options: ["Sened-i İttifak", "Tanzimat Fermanı", "Islahat Fermanı", "Kanun-ı Esasi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Osmanlı Devleti'nde Divan toplantılarında alınan kararların kaydedildiği defterlere ne ad verilir?", options: ["Mühimme Defterleri", "Tahrir Defterleri", "Şeriye Sicilleri", "Tereke Defterleri"], answer: 0, tag: "Tarih" },
+  { q: "I. Dünya Savaşı'nda Osmanlı Devleti'nin taarruz amacıyla açtığı cepheler hangileridir?", options: ["Kafkas ve Kanal", "Çanakkale ve Irak", "Suriye ve Hicaz", "Galiçya ve Makedonya"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Milli Mücadele'de halkı bilinçlendirmek adına İzmir'in işgalinin mitinglerle protesto edilmesini isteyen ilk belge hangisidir?", options: ["Havza Genelgesi", "Amasya Genelgesi", "Erzurum Kongresi", "Sivas Kongresi"], answer: 0, tag: "Tarih" },
+  { q: "Milli Mücadele'de 'Milletin bağımsızlığını yine milletin azim ve kararı kurtaracaktır' ilkesi ilk kez nerede belirtilmiştir?", options: ["Amasya Genelgesi", "Havza Genelgesi", "Misak-ı Milli", "Alaşehir Kongresi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Bütün milli cemiyetlerin tek bir çatı altında birleştirildiği kongre hangisidir?", options: ["Sivas Kongresi", "Erzurum Kongresi", "Balıkesir Kongresi", "Alaşehir Kongresi"], answer: 0, tag: "Tarih" },
+  { q: "Temsil Heyeti'nin hukuki varlığını İstanbul Hükümeti ilk kez nerede resmen tanımıştır?", options: ["Amasya Görüşmeleri", "Bilecik Görüşmeleri", "Mudanya Mütarekesi", "Lozan Görüşmeleri"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "TBMM'yi ve Misak-ı Milli'yi tanıyan ilk Avrupalı büyük devlet hangisidir?", options: ["Sovyet Rusya", "Fransa", "İtalya", "İngiltere"], answer: 0, tag: "Tarih" },
+  { q: "Kurtuluş Savaşı sırasında Batı Cephesi'nde Kuva-yı Milliye'nin düzenli orduya geçişini hızlandıran başarısız taarruz hangisidir?", options: ["Gediz Taarruzu", "Aslıhanlar Taarruzu", "İnönü Taarruzu", "Dumlupınar Taarruzu"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Mustafa Kemal Paşa'ya Başkomutanlık yetkisi hangi savaşın kaybedilmesinin ardından verilmiştir?", options: ["Eskişehir-Kütahya Savaşları", "I. İnönü Savaşı", "II. İnönü Savaşı", "Gediz Muharebesi"], answer: 0, tag: "Tarih" },
+  { q: "Fransa ile TBMM arasında imzalanarak Güney Cephesi'ni kapatan antlaşma hangisidir?", options: ["1921 Ankara Antlaşması", "Gümrü Antlaşması", "Kars Antlaşması", "Mudanya Mütarekesi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Lozan Barış Konferansı'na TBMM adına başdelege olarak katılan heyet başkanı kimdir?", options: ["İsmet İnönü", "Rauf Orbay", "Ali Fethi Okyar", "Bekir Sami Kunduh"], answer: 0, tag: "Tarih" },
+  { q: "Yeni Türk Devleti'nde milli ekonominin esaslarının belirlendiği Misak-ı İktisadi kararları nerede alınmıştır?", options: ["İzmir İktisat Kongresi", "Ankara Kongresi", "Sivas Kongresi", "Erzurum Kongresi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de çok partili hayata geçişin ilk denemesi olan parti hangisidir?", options: ["Terakkiperver Cumhuriyet Fırkası", "Serbest Cumhuriyet Fırkası", "Ahali Fırkası", "Demokrat Parti"], answer: 0, tag: "Tarih" },
+  { q: "Kabotaj Kanunu'nun kabulü Türk denizlerinde ticaret hakkını millileştirmesi sebebiyle doğrudan hangi Atatürk ilkesiyle ilgilidir?", options: ["Milliyetçilik", "Devletçilik", "Cumhuriyetçilik", "İnkılapçılık"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Boğazlar Komisyonu kaldırılarak Boğazların hakimiyetinin tamamen Türkiye'ye bırakıldığı sözleşme hangisidir?", options: ["Montrö Boğazlar Sözleşmesi", "Lozan Barış Antlaşması", "Mudanya Mütarekesi", "Londra Sözleşmesi"], answer: 0, tag: "Tarih" },
+  { q: "Hatay Cumhuriyeti'nin ilk ve tek cumhurbaşkanı kimdir?", options: ["Tayfur Sökmen", "Abdurrahman Melek", "Şükrü Saracoğlu", "Ahmet Türkpençe"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Osmanlı Devleti'nde şehzadelerin sancağa çıkma usulünü kaldıran padişah kimdir?", options: ["III. Mehmed", "I. Ahmed", "II. Selim", "IV. Murad"], answer: 0, tag: "Tarih" },
+  { q: "Kapıkulu ocaklarına asker yetiştirmek amacıyla I. Murad döneminde kurulan ilk askeri kışla hangisidir?", options: ["Acemi Ocağı", "Yeniçeri Ocağı", "Cebeci Ocağı", "Topçu Ocağı"], answer: 0, tag: "Tarih" },
+  { q: "Osmanlı minyatür sanatçılarına verilen unvan aşağıdakilerden hangisidir?", options: ["Nakkaş", "Hattat", "Müzehhib", "Hakkak"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Divan-ı Hümayun'da sadrazam sefere çıktığında başkentte yerine vekalet eden devlet adamı kimdir?", options: ["Sadaret Kaymakamı", "Kazasker", "Nişancı", "Kaptan-ı Derya"], answer: 0, tag: "Tarih" },
+  { q: "Türk tarihinde ilk kez kendi adına para bastıran Türk hükümdarı kimdir?", options: ["Baga Tarkan (Türgişler)", "Mete Han", "Bumin Kağan", "Kutluk Kağan"], answer: 0, tag: "KPSS ÇIKMIŞ" },
 
-  // --- İLK TÜRK-İSLAM DEVLETLERİ (15 Soru) ---
-  { q: "Karahanlılar Devleti'nde İslamiyet'i resmi din ilan eden ve 'Abdülkerim' adını alan hükümdar kimdir?", options: ["Satuk Buğra Han", "Bilge Kül Kadir Han", "Yusuf Kadir Han", "Ahmet Arslan Han"], answer: 0, diff: "Orta" },
-  { q: "Karahanlılar döneminde inşa edilen ve günümüze ulaşan en eski kervansaray örneği hangisidir?", options: ["Ribat-ı Melik", "Sultan Hanı", "Alayhan", "Özkent Ribatı"], answer: 0, diff: "Zor" },
-  { q: "Gazneli Devleti'nin kurucusu kabul edilen ve Samanoğulları komutanlığından hükümdarlığa yükselen komutan kimdir?", options: ["Alp Tigin", "Sebük Tigin", "Gazneli Mahmut", "Sultan Mesut"], answer: 0, diff: "Orta" },
-  { q: "Gazneli Devleti'nde Sebük Tigin tarafından oğluna devlet idaresi öğütleri vermek amacıyla yazılan eser hangisidir?", options: ["Pandname", "Siyasetname", "Kabusname", "Atebetü'l-Hakayık"], answer: 0, diff: "Eleyici" },
-  { q: "Büyük Selçuklu Devleti'nin kuruluşunu resmileştiren ve Gaznelileri mağlup ettiği 1040 tarihli savaş hangisidir?", options: ["Dandanakan Savaşı", "Nesa Savaşı", "Serahs Savaşı", "Pasinler Savaşı"], answer: 0, diff: "Orta" },
-  { q: "Tuğrul Bey'e Bağdat Seferi sonrasında Abbasi Halifesi tarafından verilen tarihi unvan hangisidir?", options: ["Doğunun ve Batının Sultanı", "Sultan-ı Azam", "Halife-i Müslimin", "İslam'ın Kılıcı"], answer: 0, diff: "Orta" },
-  { q: "Büyük Selçuklu Devleti'nde Ani Kalesi'ni fethettiği için Halife tarafından Sultan Alparslan'a verilen unvan hangisidir?", options: ["Ebu'l-Feth (Fetihlerin Babası)", "Sultan-ı Muazzam", "Melikşah", "Gazi"], answer: 0, diff: "Zor" },
-  { q: "Büyük Selçuklu Devleti'nin en geniş sınırlara ulaştığı ve Celali Takvimi'nin hazırlandığı hükümdar dönemi hangisidir?", options: ["Sultan Melikşah", "Sultan Alparslan", "Sultan Sencer", "Tuğrul Bey"], answer: 0, diff: "Orta" },
-  { q: "Büyük Selçuklu Devleti'nin son büyük hükümdarı olan ve Katvan Savaşı'nda Karahitaylara yenilen sultan kimdir?", options: ["Sultan Sencer", "Berkyaruk", "Mehmet Tapar", "Mahmut"], answer: 0, diff: "Zor" },
-  { q: "Hasan Sabbah liderliğindeki Batıni (Haşhaşi) hareketine karşı mücadele eden ünlü Selçuklu veziri kimdir?", options: ["Nizamülmülk", "Kunduri", "Fahrülmülk", "Cüveyni"], answer: 0, diff: "Orta" },
-  { q: "Anadolu Selçuklu Devleti'nin kurucusu olan ve İznik'i başkent yapan hükümdar kimdir?", options: ["Kutalmışoğlu Süleyman Şah", "I. Kılıçarslan", "I. Mesut", "Melikşah"], answer: 0, diff: "Orta" },
-  { q: "I. Haçlı Seferi sebebiyle Anadolu Selçuklu Devleti başkentini İznik'ten hangi şehre taşımak zorunda kalmıştır?", options: ["Konya", "Kayseri", "Sivas", "Eskişehir"], answer: 0, diff: "Orta" },
-  { q: "Anadolu Selçuklularında ilk medrese olan Koca Hasan Medresesi hangi hükümdar döneminde açılmıştır?", options: ["I. Kılıçarslan", "I. Mesut", "II. Kılıçarslan", "I. Alaeddin Keykubad"], answer: 1, diff: "Eleyici" },
-  { q: "Anadolu'da Moğol tehlikesine karşı Alanya ve Sinop tersanelerini kurarak denizciliği geliştiren sultan kimdir?", options: ["I. Alaeddin Keykubad", "I. İzzettin Keykavus", "I. Gıyaseddin Keyhüsrev", "Rükneddin Süleyman"], answer: 0, diff: "Orta" },
-  { q: "Anadolu Selçuklu Devleti'ni derinden sarsan ve Kösedağ Bozgunu'na zemin hazırlayan ilk dini ve sosyal nitelikli isyan hangisidir?", options: ["Baba İshak İsyanı (Babailer)", "Şeyh Bedreddin İsyanı", "Şahkulu İsyanı", "Bozoklu Celal"], answer: 0, diff: "Orta" },
-
-  // --- OSMANLI SİYASİ TARİHİ (15 Soru) ---
-  { q: "Osmanlı Devleti'nde beylikten devlete geçişin simgesi sayılan ve ilk medresenin (İznik) açıldığı padişah dönemi hangisidir?", options: ["Orhan Bey", "Osman Bey", "I. Murad", "Yıldırım Bayezid"], answer: 0, diff: "Orta" },
-  { q: "Edirne'nin fethedilerek başkent yapıldığı ve Bizans'ın Balkanlar ile bağlantısının kesildiği savaş hangisidir?", options: ["Sazlıdere Savaşı", "Sırpsındığı Savaşı", "Çirmen Savaşı", "Koyunhisar"], answer: 0, diff: "Orta" },
-  { q: "Haçlıların Osmanlı'yı Balkanlar'dan atmak için düzenlediği ilk Haçlı ittifakı savaşı hangisidir?", options: ["Sırpsındığı Savaşı", "I. Kosova", "Niğbolu", "Varna"], answer: 0, diff: "Orta" },
-  { q: "I. Kosova Savaşı sonrasında savaş meydanını gezerken bir Sırp askeri (Milos Obilic) tarafından şehit edilen padişah kimdir?", options: ["I. Murad (Hüdavendigar)", "Orhan Bey", "Yıldırım Bayezid", "II. Murad"], answer: 0, diff: "Orta" },
-  { q: "Yıldırım Bayezid'in İstanbul kuşatmaları sırasında Boğaz'ın Anadolu yakasına yaptırdığı hisar hangisidir?", options: ["Anadolu Hisarı (Güzelcehisar)", "Rumeli Hisarı", "Kilitbahir", "Yedikule"], answer: 0, diff: "Orta" },
-  { q: "Fatih Sultan Mehmet'in İstanbul kuşatması için Boğaz'ın Avrupa yakasına inşa ettirdiği devasa hisar hangisidir?", options: ["Rumeli Hisarı (Boğazkesen)", "Anadolu Hisarı", "Seddulbahir", "Kalafat"], answer: 0, diff: "Orta" },
-  { q: "Otlukbeli Savaşı (1473) ile Fatih Sultan Mehmet hangi Doğu Anadolu Türk hükümdarını mağlup etmiştir?", options: ["Uzun Hasan (Akkoyunlular)", "Şah İsmail", "Timur", "Babür Şah"], answer: 0, diff: "Orta" },
-  { q: "Memlük Devleti'ne kesin olarak son veren ve Halifeliğin Osmanlı'ya geçmesini sağlayan 1517 tarihli zafer hangisidir?", options: ["Ridaniye Savaşı", "Mercidabık Savaşı", "Çaldıran Savaşı", "Koçhisar"], answer: 0, diff: "Orta" },
-  { q: "Osmanlı Devleti ile Avusturya arasında Orta Avrupa hakimiyetini belirleyen ve Macaristan'ı Osmanlı'ya bağlayan 1526 zaferi hangisidir?", options: ["Mohaç Meydan Muharebesi", "Niğbolu", "Zigetvar", "Varna"], answer: 0, diff: "Orta" },
-  { q: "II. Viyana Kuşatması'ndaki (1683) başarısızlığı sebebiyle idam edilen Osmanlı sadrazamı kimdir?", options: ["Merzifonlu Kara Mustafa Paşa", "Köprülü Fazıl Mustafa", "Tarhuncu Ahmed Paşa", "Lala Mustafa Paşa"], answer: 0, diff: "Orta" },
-  { q: "Prut Savaşı'nda Rus ordusunu bataklıkta kıstırarak Azak Kalesi'ni geri alan Osmanlı sadrazamı kimdir?", options: ["Baltacı Mehmed Paşa", "Damat İbrahim Paşa", "Rami Mehmed Paşa", "Çorlulu Ali Paşa"], answer: 0, diff: "Orta" },
-  { q: "Osmanlı'nın 18. yüzyılda imzaladığı son kazançlı antlaşma olan ve Belgrad'ın geri alındığı 1739 antlaşması hangisidir?", options: ["Belgrad Antlaşması", "Pasarofça", "Küçük Kaynarca", "Yaş"], answer: 0, diff: "Orta" },
-  { q: "III. Selim döneminde Nizam-ı Cedit ordusunun masraflarını karşılamak amacıyla kurulan özel hazine hangisidir?", options: ["İrad-ı Cedit Hazinesi", "Hazine-i Amire", "Hazine-i Hassa", "Ceb-i Hümayun"], answer: 0, diff: "Zor" },
-  { q: "Boğazlar sorununun uluslararası bir statüye kavuştuğu ve Boğazların tüm savaş gemilerine kapatıldığı sözleşme hangisidir?", options: ["1841 Londra Boğazlar Sözleşmesi", "Hünkar İskelesi", "Balta Limanı", "Paris Antlaşması"], answer: 0, diff: "Orta" },
-  { q: "Trablusgarp Savaşı sonrasında İtalya ile imzalanan ve Kuzey Afrika'daki son toprak parçasının kaybedildiği antlaşma hangisidir?", options: ["Uşi Antlaşması", "Bükreş Antlaşması", "Londra Antlaşması", "Atina Antlaşması"], answer: 0, diff: "Orta" },
-
-  // --- OSMANLI KÜLTÜR VE MEDENİYETİ (15 Soru) ---
-  { q: "Osmanlı Devleti'nde taşra idaresinde köylerin güvenliğinden ve asayişinden sorumlu görevli kimdir?", options: ["Yiğitbaşı / Köy Kethüdası", "Subaşı", "Kadı", "Tımar Sahibi"], answer: 0, diff: "Zor" },
-  { q: "İltizam sisteminin ömür boyu kiralanması uygulamasına ne ad verilirdi?", options: ["Malikane Sistemi", "Esham", "Mukataa", "Gedik"], answer: 0, diff: "Zor" },
-  { q: "Osmanlı Devleti'nde iç borçlanmaya gitmek amacıyla ilk kez tahvil (hazine bonosu) çıkarılması uygulamasına ne ad verilir?", options: ["Esham Sistemi", "Kaime", "Akçe", "İltizam"], answer: 0, diff: "Zor" },
-  { q: "Osmanlı ordusunda kale kuşatmalarında tünel kazıp surların altına barut yerleştiren ocak hangisidir?", options: ["Lağımcılar", "Humbaracılar", "Topçular", "Cebeciler"], answer: 0, diff: "Orta" },
-  { q: "Kapıkulu ordusunun silahlarının yapımı, bakımı ve onarımından sorumlu askeri birlik hangisidir?", options: ["Cebeciler", "Humbaracılar", "Top Arabacıları", "Bostancılar"], answer: 0, diff: "Orta" },
-  { q: "Osmanlı sarayında padişahın kaftanlarını, giysilerini diken ve koruyan görevliye ne ad verilirdi?", options: ["Çuhadar Ağa", "Rikabdar", "Silahtar", "Dülbentçi"], answer: 0, diff: "Eleyici" },
-  { q: "Padişahın ata binerken üzengisini tutan ve çizmelerinden sorumlu saray görevlisi kimdir?", options: ["Rikabdar Ağa", "Çuhadar", "İbriktar", "Kilerci"], answer: 0, diff: "Eleyici" },
-  { q: "Osmanlı Devleti'nde taşra idaresinde eyaletin en üst mülki ve idari amiri kimdir?", options: ["Beylerbeyi", "Sancakbeyi", "Kadı", "Subaşı"], answer: 0, diff: "Orta" },
-  { q: "Müslüman çiftçilerden ürettikleri tarım ürünleri üzerinden alınan 1/10 oranındaki şeri vergi hangisidir?", options: ["Öşür (Aşar)", "Haraç", "Cizye", "Resm-i Çift"], answer: 0, diff: "Orta" },
-  { q: "Küçükbaş hayvan (koyun, keçi) yetiştiricilerinden alınan Osmanlı vergisi hangisidir?", options: ["Ağnam Vergisi", "Avarız", "Bac-ı Pazar", "Bennak"], answer: 0, diff: "Orta" },
-  { q: "Pazarlardan ve çarşılardan tüccarlardan alınan ticaret ve pazar resmi vergisi hangisidir?", options: ["Bâc-ı Pazar", "Ağnam", "İhtisap", "Gümrük"], answer: 0, diff: "Zor" },
-  { q: "Osmanlı Devleti'nde ilk rasathaneyi (gözlemevi) kuran ünlü Türk-İslam astronomu kimdir?", options: ["Takiyüddin Mehmed", "Ali Kuşçu", "Uluğ Bey", "Kadızade-i Rumi"], answer: 0, diff: "Orta" },
-  { q: "Fatih Sultan Mehmet tarafından İstanbul'a davet edilen ve Ayasofya Medresesi'ne müderris yapılan astronom kimdir?", options: ["Ali Kuşçu", "Takiyüddin", "Molla Fenari", "Akşemseddin"], answer: 0, diff: "Orta" },
-  { q: "Osmanlı Devleti'nin ilk şeyhülislamı kabul edilen alim kimdir?", options: ["Molla Fenari", "Dursun Fakih", "Ebussuud Efendi", "Kemalpaşazade"], answer: 0, diff: "Zor" },
-  { q: "Osmanlı Devleti'nin ilk kadısı kabul edilen ve Osman Bey döneminde hutbe okuyan din alimi kimdir?", options: ["Dursun Fakih", "Şeyh Edebali", "Molla Fenari", "Davud-ı Kayseri"], answer: 0, diff: "Orta" },
-
-  // --- İNKILAP TARİHİ VE ATATÜRK DÖNEMİ (15 Soru) ---
-  { q: "I. Dünya Savaşı'nda Osmanlı Devleti'nin taarruz amacıyla açtığı iki cephe hangileridir?", options: ["Kafkas ve Kanal", "Çanakkale ve Irak", "Suriye ve Hicaz", "Galiçya ve Romanya"], answer: 0, diff: "Orta" },
-  { q: "Irak Cephesi'nde Halil (Kut) Paşa komutasında İngiliz ordusunun esir alındığı büyük zafer hangisidir?", options: ["Kut'ül-Amare Zaferi", "Selman-ı Pak", "Fas Zaferi", "Kurna"], answer: 0, diff: "Orta" },
-  { q: "Kuvayımilliye tabirini ilk kez kullanan ve basın-yayın yoluyla direnişi savunan cemiyet hangisidir?", options: ["Milli Kongre Cemiyeti", "Kilikyalılar", "Redd-i İlhak", "Trakya-Paşaeli"], answer: 0, diff: "Orta" },
-  { q: "Mustafa Kemal Paşa'nın resmi askerlik görevinden istifa ederek 'sine-i millete' döndüğü tarihi gelişme hangisidir?", options: ["Amasya Genelgesi'nden sonra (Erzurum öncesi)", "Havza Genelgesi'nden sonra", "Sivas Kongresi sırasında", "Samsun'a çıkınca"], answer: 0, diff: "Orta" },
-  { q: "Toplanış amacı bakımından bölgesel, aldığı kararlar bakımından ulusal olan kongre hangisidir?", options: ["Erzurum Kongresi", "Sivas Kongresi", "Balıkesir Kongresi", "Alaşehir Kongresi"], answer: 0, diff: "Orta" },
-  { q: "Milli Mücadele'de çıkarılan ilk resmi yayın organı sayılan ve Sivas Kongresi'nde kurulan gazete hangisidir?", options: ["İrade-i Milliye", "Hakimiyet-i Milliye", "Ceride-i Resmiye", "Tasvir-i Efkar"], answer: 0, diff: "Orta" },
-  { q: "Son Osmanlı Mebusan Meclisi'nde Mustafa Kemal'in isteği hilafına kurulan milletvekili grubu hangisidir?", options: ["Felah-ı Vatan", "Müdafaa-i Hukuk", "Tesanüd", "İstiklal"], answer: 0, diff: "Zor" },
-  { q: "Milli Mücadele'de düzenli ordunun Batı Cephesi'nde kazandığı ilk askeri zafer hangisidir?", options: ["I. İnönü Muharebesi", "II. İnönü", "Aslıhanlar", "Sakarya"], answer: 0, diff: "Orta" },
-  { q: "I. İnönü Zaferi'nden sonra TBMM hükümetinin ilk anayasası olarak kabul edilen anayasa hangisidir?", options: ["1921 Teşkilat-ı Esasiye", "1876 Kanun-ı Esasi", "1924 Anayasası", "Sened-i İttifak"], answer: 0, diff: "Orta" },
-  { q: "Sakarya Meydan Muharebesi öncesinde ordunun lojistik ihtiyaçlarını halktan karşılamak amacıyla yayımlanan emirler hangisidir?", options: ["Tekalif-i Milliye Emirleri", "Hıyanet-i Vataniye", "Firariler Kanunu", "Mecelle"], answer: 0, diff: "Orta" },
-  { q: "Mustafa Kemal Paşa'nın 'Hatt-ı müdafaa yoktur, sath-ı müdafaa vardır. O satıh bütün vatandır' emrini verdiği savaş hangisidir?", options: ["Sakarya Meydan Muharebesi", "Büyük Taarruz", "I. İnönü", "Eskişehir-Kütahya"], answer: 0, diff: "Orta" },
-  { q: "Büyük Taarruz sonrasında silahlı çatışmayı sona erdiren ve İstanbul ile Doğu Trakya'nın savaşsız kurtarılmasını sağlayan mütareke hangisidir?", options: ["Mudanya Ateşkes Antlaşması", "Mondros Ateşkesi", "Gümrü Antlaşması", "Lozan"], answer: 0, diff: "Orta" },
-  { q: "Cumhuriyetin ilanıyla birlikte ilk Başbakanlık ve ilk Meclis Başkanlığı görevlerini üstlenen devlet adamları kimlerdir?", options: ["İsmet İnönü (Başbakan) - Ali Fethi Okyar (Meclis Bşk.)", "Rauf Orbay - Kazım Karabekir", "Celal Bayar - Refet Bele", "Fevzi Çakmak - İsmet İnönü"], answer: 0, diff: "Zor" },
-  { q: "1924 Anayasası'nda 'Devletin dini İslam'dır' ibaresi hangi yılda yapılan değişiklikle metinden çıkarılmıştır?", options: ["1928", "1937", "1934", "1924"], answer: 0, diff: "Orta" },
-  { q: "Atatürk ilkelerinin tamamının Türkiye Cumhuriyeti Anayasası'na girdiği yıl hangisidir?", options: ["1937", "1928", "1924", "1934"], answer: 0, diff: "Orta" }
+  // --- COĞRAFYA: ÇIKMIŞ KPSS VE ÖZGÜN SORULAR (20 Soru) ---
+  { q: "Türkiye'de doğu ile batı arasındaki yerel saat farkı kaç dakikadır?", options: ["76 Dakika", "60 Dakika", "44 Dakika", "82 Dakika"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Aşağıdaki göllerden hangisi bir karstik oluşumlu göl özelliği taşır?", options: ["Salda Gölü", "Van Gölü", "Terkos (Durusu)", "Çıldır Gölü"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'nin en büyük delta ovası olan Çukurova'yı oluşturan akarsular hangileridir?", options: ["Seyhan ve Ceyhan", "Kızılırmak ve Yeşilırmak", "Gediz ve Bakırçay", "Fırat ve Dicle"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de güneş ışınlarının hiçbir zaman dik açıyla (90 derece) düşmemesinin temel sebebi nedir?", options: ["Dönencelerin dışında yer alması (Matematik Konum)", "Yükseltinin batıdan doğuya artması", "Etrafının denizlerle çevrili olması", "Dağların doğu-batı uzanması"], answer: 0, tag: "Coğrafya" },
+  { q: "Karadeniz ve Akdeniz'de dağların kıyıya paralel uzanmasının doğal bir sonucu olarak hangi kıyı tipi görülür?", options: ["Boyuna Kıyı Tipi", "Enine Kıyı Tipi", "Ria Kıyı Tipi", "Dalmaçya Kıyı Tipi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Antalya Kaş kıyılarında adaların kıyıya paralel dizilmesiyle oluşan özel kıyı tipi hangisidir?", options: ["Dalmaçya Kıyı Tipi", "Ria Kıyı Tipi", "Boyuna Kıyı", "Kalanklı Kıyı"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'de rüzgar erozyonunun en şiddetli hissedildiği coğrafi bölge hangisidir?", options: ["İç Anadolu Bölgesi", "Karadeniz Bölgesi", "Doğu Anadolu Bölgesi", "Ege Bölgesi"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Aşağıdaki ovalardan hangisi bir fay hattı çöküntüsü üzerinde oluşmuş 'tektonik' kökenli ovadır?", options: ["Erbaa Ovası", "Çarşamba Ovası", "Silifke Ovası", "Bafra Ovası"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'de volkanik patlama sonucu oluşan gaz patlaması çukurlarına (Maar) en bilinen örnek hangisidir?", options: ["Meke Tuzlası (Meke Maar Gölü)", "Nemrut Krater Gölü", "Uzungöl", "Tortum Gölü"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Akdeniz iklim bölgesinde kalkerli araziler üzerinde oluşan kırmızı renkli karakteristik toprak türü hangisidir?", options: ["Terra Rossa", "Çernezyom", "Podzol", "Laterit"], answer: 0, tag: "Coğrafya" },
+  { q: "Erzurum-Kars platosunda çayır bitki örtüsü altında gelişen, dünyanın en verimli yerli toprağı sayılan toprak hangisidir?", options: ["Çernezyom (Kara Toprak)", "Kahverengi Bozkır", "Alüvyal Toprak", "Regosol"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de nemlilik ve yağış rejiminin en düzenli olduğu, dolayısıyla yıllık sıcaklık farkının en az olduğu bölge hangisidir?", options: ["Doğu Karadeniz Kıyıları", "Güneydoğu Anadolu", "İç Batı Anadolu", "Ergene Bölümü"], answer: 0, tag: "Coğrafya" },
+  { q: "Akdeniz kıyılarında makilerin tahrip edilmesiyle ortaya çıkan kısa boylu bodur çalı topluluğuna ne ad verilir?", options: ["Garig (Frigana)", "Psödomaki", "Bozkır", "Antropojen Bozkır"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de heyelan olaylarının en fazla ilkbahar aylarında görülmesinin temel nedeni nedir?", options: ["Kar erimeleri ve killi toprak yapısı", "Aşırı rüzgar fırtınaları", "Bitki örtüsünün kuruması", "Fay hatlarının kırılması"], answer: 0, tag: "Coğrafya" },
+  { q: "Aşağıdaki platolardan hangisi karstik erime süreçleriyle oluşmuş kalkerli bir platodur?", options: ["Teke Platosu", "Bozok Platosu", "Haymana Platosu", "Yazılıkaya Platosu"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Ege Bölgesi'nde horst ve graben sisteminde kırılmayla çöken sahalarda oluşan graben ovalarından biri hangisidir?", options: ["Gediz Ovası", "Erbaa Ovası", "Malatya Ovası", "Iğdır Ovası"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'de demir-çelik sanayisinin Karabük ve İskenderun'da kurulmasında sırasıyla hangi faktörler etkili olmuştur?", options: ["Enerji kaynağına yakınlık - Ulaşım (Liman)", "Hammaddeye yakınlık - Pazar", "İklim şartları - İş gücü", "Su kaynakları - Sermaye"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Türkiye'de petrolün ilk kez çıkarıldığı ve rafinerisi bulunan Güneydoğu Anadolu Dağı hangisidir?", options: ["Raman Dağı", "Cudi Dağı", "Gabar Dağı", "Karacadağ"], answer: 0, tag: "Coğrafya" },
+  { q: "Türkiye'nin elektrik üretiminde jeotermal enerjiden yararlandığı ilk santral hangi ilimizdedir?", options: ["Denizli (Sarayköy)", "Manisa (Alaşehir)", "Aydın (Germencik)", "İzmir (Balçova)"], answer: 0, tag: "KPSS ÇIKMIŞ" },
+  { q: "Rize ve çevresinde turunçgil ve çay tarımının yapılabilmesini sağlayan mikroklima alanı oluşturan yerel rüzgar hangisidir?", options: ["Föhn Rüzgarı", "Poyraz", "Lodos", "Karayel"], answer: 0, tag: "Coğrafya" }
 ];
 
-// Seçenekleri otomatik karıştır (Her sorunun cevabı A'da kalmasın)
+// 1. Şık Karıştırma: Her sorunun doğru cevabını rastgele şıklara dağıt
 questions.forEach(qObj => {
   const correctText = qObj.options[qObj.answer];
   for (let i = qObj.options.length - 1; i > 0; i--) {
@@ -206,6 +150,12 @@ questions.forEach(qObj => {
   }
   qObj.answer = qObj.options.indexOf(correctText);
 });
+
+// 2. Soru Sıralaması Karıştırma: Tarih ve Coğrafyayı tamamen harmanla
+for (let i = questions.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [questions[i], questions[j]] = [questions[j], questions[i]];
+}
 
 let peer = null;
 let isHost = false;
@@ -314,7 +264,7 @@ function nextQuestion() {
     total: questions.length,
     q: q.q,
     options: q.options,
-    diff: q.diff
+    tag: q.tag
   };
 
   broadcast(qData);
@@ -383,7 +333,7 @@ function evaluateRound() {
   broadcast(resultData);
   handleClientData(resultData);
 
-  // 5 Saniyelik Bekleme Süresi
+  // 5 Saniye Skor Tablosu
   if (!resultData.isLast) {
     setTimeout(() => {
       nextQuestion();
@@ -412,9 +362,12 @@ function handleClientData(data) {
 
     document.getElementById('q-counter').innerText = `Soru ${data.index + 1}/${data.total}`;
     
-    const diffBadge = document.getElementById('q-diff');
-    diffBadge.innerText = data.diff;
-    diffBadge.className = `diff-badge diff-${data.diff.toLowerCase()}`;
+    // Etiket yönetimi
+    const tagElem = document.getElementById('q-cat');
+    tagElem.innerText = data.tag;
+    if (data.tag === 'KPSS ÇIKMIŞ') tagElem.className = 'cat-badge cat-cikmis';
+    else if (data.tag === 'Coğrafya') tagElem.className = 'cat-badge cat-cografya';
+    else tagElem.className = 'cat-badge cat-tarih';
 
     document.getElementById('question-text').innerText = data.q;
     document.getElementById('status-footer').innerText = "Cevabınızı seçin...";
@@ -447,7 +400,7 @@ function handleClientData(data) {
   } else if (data.type === 'GAME_OVER') {
     document.getElementById('quiz-card').style.display = 'none';
     document.getElementById('round-card').style.display = 'block';
-    document.getElementById('round-result-title').innerText = "🏆 100 Soru Tamamlandı! 🏆";
+    document.getElementById('round-result-title').innerText = "🏆 50 Soru Tamamlandı! 🏆";
     document.getElementById('round-correct-ans').innerText = "Yarışma sona erdi.";
   }
 }
